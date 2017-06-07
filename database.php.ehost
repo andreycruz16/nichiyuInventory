@@ -1,0 +1,9 @@
+<?php 
+	date_default_timezone_set('Asia/Manila');
+	$server_name   = "localhost";
+	$username      = "bsitthrt_nichiyu";
+	$password      = "bsit2018";
+	$database_name = "bsitthrt_db_nichiyuInventory";
+
+	$conn = mysqli_connect($server_name, $username, $password, $database_name) or die(mysql_error());
+ ?>
