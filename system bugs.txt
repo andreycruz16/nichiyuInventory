@@ -1,0 +1,55 @@
+@@@@ = DONE
+
+----------------------------------------------------------
+
+custom report from an to date fix 
+
+@@quantity less than to zero when adding a new item
+
+@@@to uppercase
+
+@@@Reports title name and filename when savingm
+
+@@use strip tags
+
+@@recent stock logs ascending
+
+@@admin low stocks module
+
+@@admin edit user
+
+@@admin change user type
+
+@@warehouse box number filter
+
+JS disable an attribute .attr()
+
+maintenance (add a table for retreiving deleted items)
+
+more details on discrepancy (find where the discrepancy started)
+
+chage the cell parameter from 10 to 0 in date printed line
+
+recent transaction s limit 500 or 100?
+
+recent transactions column arrangements
+
+admin recent transactions with department name column
+
+hide the sidebar saved state even when reloading
+
+export table as excel file
+
+limit admin  dashboard table to 10 rows per page
+
+fix pages title name
+
+fix report table header (overlaps)
+
+some modals not working on ehost
+
+add the details tab on item transaction in guest and admin accounts
+
+color of row when 5=5 order point. it has low stock label but green row color
+
+copy the sql for all items to all item count for equal count to avoid eror
