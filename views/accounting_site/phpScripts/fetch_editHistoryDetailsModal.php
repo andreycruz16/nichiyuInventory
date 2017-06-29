@@ -16,8 +16,7 @@ if($_POST['history_id']) {
             tbl_item.partNumber,
             tbl_item_history.quantity,
             tbl_item_history.customerName,
-            tbl_item_history.model,
-            tbl_item_history.serialNumber,
+            tbl_item_history.details,
             tbl_item_history.transferType,
             tbl_users.firstName,
             tbl_users.lastName,
@@ -45,13 +44,12 @@ if($_POST['history_id']) {
             $partNumber = $row[8];
             $quantity = $row[9];
             $customerName = $row[10];
-            $model = $row[11];
-            $serialNumber = $row[12];
-            $transferType = $row[13];
-            $firstName = $row[14];
-            $lastName = $row[15];
-            $comment = $row[16];
-            $unitCost = $row[17];
+            $details = $row[11];
+            $transferType = $row[12];
+            $firstName = $row[13];
+            $lastName = $row[14];
+            $comment = $row[15];
+            $unitCost = $row[16];
     }
   }
     // Echo the data you want to show in modal
@@ -62,8 +60,7 @@ if($_POST['history_id']) {
 
  <script> //php variables to javascript variables
     var customerName = "<?php echo $customerName; ?>";
-    var model = "<?php echo $model; ?>";
-    var serialNumber = "<?php echo $serialNumber; ?>";
+    var details = "<?php echo $details; ?>";
     var receivingReport = "<?php echo $receivingReport; ?>";
  </script>
 <!--  EDIT HISTORY DETAILS MODAL -->
@@ -145,14 +142,8 @@ if($_POST['history_id']) {
                      </div><br>
                      <div class="input-group col-md-12">
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Model:</span>
-                            <input type="text" name="model" value="<?php echo $model; ?>" id="model" placeholder="Model (Optional)" class="form-control" value="<?php echo $model; ?>" aria-describedby="basic-addon1">                                                                                           
-                        </div>                                                                                                                                               
-                      </div><br>
-                      <div class="input-group col-md-12">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">Serial Number:</span>
-                            <input type="text" name="serialNumber" value="<?php echo $serialNumber; ?>" id="serialNumber" placeholder="Serial Number (Optional)" class="form-control" value="<?php echo $serialNumber; ?>" aria-describedby="basic-addon1">                                                                                           
+                            <span class="input-group-addon" id="basic-addon1">Details:</span>
+                            <input type="text" name="details" value="<?php echo $details; ?>" id="details" placeholder="Details" class="form-control" value="<?php echo $details; ?>" aria-describedby="basic-addon1">                                                                                           
                         </div>                                                                                                                                               
                       </div>
                 </div>  
@@ -165,7 +156,7 @@ if($_POST['history_id']) {
                 <input type="hidden" name="partNumber" id="partNumber" value="<?php echo $partNumber; ?>">
                 <input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
                 <input type="hidden" name="stockOnHand" id="stockOnHand" value="<?php echo $stockOnHand; ?>">
-              </div>         
+              </div>
             </div>
           </div>
         </div>
@@ -177,43 +168,23 @@ if($_POST['history_id']) {
 </form>
 
 <script>
-          // $(document).ready(function() {
-          //   if($('#reference_idModal').val() != '1' && $('#reference_idModal').val() != '2') {
-          //         $('#receivingReportModal').fadeOut('fast');
-          //         $('#receivingReportModal #receivingReportModal').val("N/A");
-          //   }
-           
-          //     $('#reference_idModal').change(function(event) {
-          //         if($(this).val() == '1' || $(this).val() == '2') {
-          //             $('#receivingReportModal').fadeIn('fast');
-          //             $('#receivingReportModal #receivingReportModal').val(receivingReport);
-          //         } else {
-          //             $('#receivingReportModal').fadeOut('fast');
-          //             $('#receivingReportModal #receivingReportModal').val("N/A");
-          //         }
-          //     });
-          // });   
+    // $(document).ready(function() {
+    //   if($('#transferType').val() != 'OUT') {
+    //         $('#forTransferTypeOut').fadeOut('fast');
+    //         $('#customerName').val("N/A");
+    //         $('#details').val("N/A");
+    //   }
 
-          $(document).ready(function() {
-            if($('#transferType').val() != 'OUT') {
-                  $('#forTransferTypeOut').fadeOut('fast');
-                  $('#customerName').val("N/A");
-                  $('#model').val("N/A");
-                  $('#serialNumber').val("N/A");  
-            }
-
-              $('#transferType').change(function(event) {
-                  if($(this).val() == 'OUT') {
-                      $('#forTransferTypeOut').fadeIn('fast');
-                      $('#customerName').val("");
-                      $('#model').val("");
-                      $('#serialNumber').val("");
-                  } else {
-                      $('#forTransferTypeOut').fadeOut('fast');
-                      $('#customerName').val(customerName);
-                      $('#model').val(model);
-                      $('#serialNumber').val(serialNumber);                      
-                  }
-              });
-          });   
+    //     $('#transferType').change(function(event) {
+    //         if($(this).val() == 'OUT') {
+    //             $('#forTransferTypeOut').fadeIn('fast');
+    //             $('#customerName').val("");
+    //             $('#details').val("");
+    //         } else {
+    //             $('#forTransferTypeOut').fadeOut('fast');
+    //             $('#customerName').val(customerName);
+    //             $('#details').val(details);
+    //         }
+    //     });
+    // });   
 </script>

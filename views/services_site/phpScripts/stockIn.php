@@ -32,7 +32,6 @@
         $referenceNumber = strip_tags($referenceNumber);
         $referenceNumber = strtoupper($referenceNumber);
 
-
         $unitCost = $_POST['unitCost'];
         $unitCost = mysqli_real_escape_string($conn, $unitCost);
         $unitCost = trim($unitCost);
@@ -41,7 +40,7 @@
         $quantity = mysqli_real_escape_string($conn, $quantity);
         $quantity = trim($quantity);
         $quantity = max($quantity, 0);
-        if ($quantity == 0) {
+        if ($quantity < 0) {
             echo "<script>alert('INVALID QUANTITY. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
             exit();
         }
@@ -56,6 +55,13 @@
         $receivingReport = strip_tags($receivingReport);
         $receivingReport = strtoupper($receivingReport);
 
+        $details = $_POST['details'];
+        if($details == "") { $details = 'N/A'; };
+        $details = mysqli_real_escape_string($conn, $details);
+        $details = trim($details);
+        $details = strip_tags($details);
+        $details = strtoupper($details);        
+
         $sql = "INSERT INTO tbl_item_history VALUES(NULL,
                                                      ".$item_id.",
                                                      3,
@@ -68,10 +74,9 @@
                                                      ".$unitCost.",
                                                      ".$quantity.",
                                                      'N/A',
-                                                     'N/A',
-                                                     'N/A',
+                                                     '".$details."',
                                                      ".$_SESSION['user_id'].",
-                                                     'N/A');";                    
+                                                     'N/A');";
         $retval = mysqli_query($conn, $sql);
 
         if ($retval) {                                                            

@@ -75,7 +75,8 @@
 		<div id="page-wrapper">
             <div class="header"> 
                 <h2 class="page-header">
-                    <code class="text-success">SERVICE&nbsp;DEPARTMENT</code>
+                    <code class="text-success">SERVICE&nbsp;DEPARTMENT</code><br>
+                    <code class="text-success">HOST ADDRESS: <?php echo $_SERVER['HTTP_HOST']; ?></code>
                 </h2>
                 <ol class="breadcrumb">
                     <li class="active">All Records</li>
@@ -155,7 +156,7 @@
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;#</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Description</th>
                                                 <!-- <th class="text-center" bgcolor="f2ba7f" width="">Box&nbsp;#</th> -->
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Order Point</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Minimum&nbsp;Stock&nbsp;Count</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Stock&nbsp;On&nbsp;Hand</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Status</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Transactions</th>
@@ -202,6 +203,8 @@
                                                     $boxNumber = $row[3];
                                                     $minStockCount = $row[4];
                                                     $quantity = $row[5];
+
+                                                    
                                         ?>
                                             <tr class="<?php if($quantity < $minStockCount AND $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>">
                                                 <td class="text-center"><?php  echo $item_id; ?></td>

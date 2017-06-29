@@ -87,7 +87,7 @@
                                           </div>
                                           <div class="form-group">
                                               <label for="message-text" class="control-label">First Name</label>
-                                              <input type="text" class="form-control" value="<?php echo $firstName; ?>"name="firstName" id="firstName" autocomplete="off">
+                                              <input type="text" class="form-control" value="<?php echo $firstName; ?>" name="firstName" id="firstName" autocomplete="off">
                                           </div>   
                                           <div class="form-group">
                                               <label for="recipient-name" class="control-label">Last Name</label>
@@ -158,7 +158,7 @@
                                 </div>                                
                             </div>
                         </div>
-                        <div class="panel panel-default">
+<!--                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Remove User
                             </div>
@@ -185,7 +185,7 @@
                                     </div>
                                 </div>                                                                
                             </div>
-                        </div>
+                        </div> -->
                     </div>                                   
                 </div>
 				    <?php include("includes/footer.php") ?>

@@ -56,20 +56,12 @@
         $customerName = strip_tags($customerName);
         $customerName = strtoupper($customerName);
 
-        $model = $_POST['model'];
-        if($model == "") { $model = 'N/A'; };
-        $model = mysqli_real_escape_string($conn, $model);
-        $model = trim($model);
-        $model = strip_tags($model);
-        $model = strtoupper($model);
-
-        $serialNumber = $_POST['serialNumber'];
-        if($serialNumber == "") { $serialNumber = 'N/A'; };
-        $serialNumber = mysqli_real_escape_string($conn, $serialNumber);
-        $serialNumber = trim($serialNumber);
-        $serialNumber = strip_tags($serialNumber);
-        $serialNumber = strtoupper($serialNumber);
-
+        $details = $_POST['details'];
+        if($details == "") { $details = 'N/A'; };
+        $details = mysqli_real_escape_string($conn, $details);
+        $details = trim($details);
+        $details = strip_tags($details);
+        $details = strtoupper($details);
 
         $sql = "INSERT INTO tbl_item_history VALUES(NULL,
                                                      ".$item_id.",
@@ -83,8 +75,7 @@
                                                      0,
                                                      ".$quantity.",
                                                      '".$customerName."',
-                                                     '".$model."',
-                                                     '".$serialNumber."',
+                                                     '".$details."',
                                                      ".$_SESSION['user_id'].",
                                                      'N/A');";                    
         $retval = mysqli_query($conn, $sql);

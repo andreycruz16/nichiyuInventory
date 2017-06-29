@@ -75,7 +75,8 @@
 		<div id="page-wrapper">
             <div class="header"> 
                 <h2 class="page-header">
-                    <code class="text-success">ACCOUNTING&nbsp;DEPARTMENT</code>
+                    <code class="text-success">ACCOUNTING&nbsp;DEPARTMENT</code><br>
+                    <code class="text-success">HOST ADDRESS: <?php echo $_SERVER['HTTP_HOST']; ?></code>
                 </h2>
                 <ol class="breadcrumb">
                     <li class="active">All Records</li>

@@ -61,9 +61,9 @@ if($_POST['item_id']) {
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Reference:</span>
                     <select class="form-control" name="reference_id" id="reference_id_out" required>
-                        <option value="" selected disabled>Reference Type</option>
+                        <option value="" selected disabled>Document Type</option>
                         <?php 
-                            $sql = "SELECT * FROM tbl_reference WHERE reference_id != 0;";
+                            $sql = "SELECT * FROM tbl_reference WHERE reference_id != 0 AND inOrOut = 0 OR inOrOut = -1;";
 
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
@@ -78,16 +78,16 @@ if($_POST['item_id']) {
                                 }
                             }
                             mysqli_close($conn);
-                        ?>                        
+                        ?>                           
                     </select>
-                    <input type="text" name="referenceNumber" class="form-control" id="referenceNumber_out" placeholder="Reference Number" aria-describedby="basic-addon1" required autocomplete="off">
+                    <input type="text" name="referenceNumber" class="form-control" id="referenceNumber_out" placeholder="Reference Number" aria-describedby="basic-addon1" required autocomplete="on">
+                    <input type="text" name="receivingReport" class="form-control" id="receivingReport_out" placeholder="Receiving Report" aria-describedby="basic-addon1" autocomplete="on">
                 </div>
                 <br>
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Details:</span>
-                    <input type="text" name="customerName" class="form-control" id="customerName" placeholder="Customer Name" aria-describedby="basic-addon1" required autocomplete="off">
-                    <input type="text" name="model" class="form-control" id="model" placeholder="Model (Optional)" aria-describedby="basic-addon1" autocomplete="off">
-                    <input type="text" name="serialNumber" class="form-control" id="serialNumber" placeholder="Serial Number (Optional)" aria-describedby="basic-addon1" autocomplete="off">
+                    <input type="text" name="customerName" class="form-control" id="customerName" placeholder="Customer Name" aria-describedby="basic-addon1" required autocomplete="on">
+                    <input type="text" name="details" class="form-control" id="details" placeholder="Details (Optional)" aria-describedby="basic-addon1" autocomplete="on">
                 </div>
                 <br>
                 <h5><strong><?php echo $description; ?> Current Quantity: <span class="text-success"><?php echo $quantity; ?></span></strong></h5>
@@ -109,18 +109,34 @@ if($_POST['item_id']) {
     </div>
 </div>
 <script>
+    $('#referenceNumber_out').fadeOut().val("N/A");
+    $('#receivingReport_out').fadeOut().val("N/A");
+
     $('#reference_id_out').change(function(event) {
-        if($(this).val() == '1' || $(this).val() == '2') {
+        if($(this).val() == '1') {//Purchase Order
             $('#referenceNumber_out').fadeIn().val("");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number');
             $('#receivingReport_out').fadeIn().val("");
-
-        } else if($(this).val() == '7') {
-            $('#referenceNumber_out').fadeIn().val("Physical Count");
+        } else if($(this).val() == '2') {//Transfer Ticket
+            $('#referenceNumber_out').fadeIn().val("");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number');
             $('#receivingReport_out').fadeOut().val("N/A");
-
+        } else if($(this).val() == '4') { //INVOICE
+            $('#referenceNumber_out').fadeIn().val("");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number / DR: Delivery Receipt');
+            $('#receivingReport_out').fadeOut().val("N/A");
+        } else if($(this).val() == '5') { //Delivery Receipt
+            $('#referenceNumber_out').fadeIn().val("");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number');
+            $('#receivingReport_out').fadeOut().val("N/A");
+        } else if($(this).val() == '7') {//Physical Count
+            $('#referenceNumber_out').fadeIn().val("Physical Count");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number');
+            $('#receivingReport_out').fadeOut().val("N/A");
         } else {
             $('#referenceNumber_out').fadeIn().val("");
+            $('#referenceNumber_out').attr('placeholder', 'Reference Number');
             $('#receivingReport_out').fadeOut().val("N/A");
         }
-    });      
+    });    
 </script>

@@ -15,8 +15,7 @@ if($_POST['history_id']) {
             tbl_item.partNumber,
             tbl_item_history.quantity,
             tbl_item_history.customerName,
-            tbl_item_history.model,
-            tbl_item_history.serialNumber,
+            tbl_item_history.details,
             tbl_item_history.transferType,
             tbl_users.firstName,
             tbl_users.lastName,
@@ -44,13 +43,12 @@ if($_POST['history_id']) {
             $partNumber = $row[7];
             $quantity = $row[8];
             $customerName = $row[9];
-            $model = $row[10];
-            $serialNumber = $row[11];
-            $transferType = $row[12];
-            $firstName = $row[13];
-            $lastName = $row[14];
-            $comment = $row[15];
-            $unitCost = $row[16];
+            $details = $row[10];
+            $transferType = $row[11];
+            $firstName = $row[12];
+            $lastName = $row[13];
+            $comment = $row[14];
+            $unitCost = $row[15];
 		}
 	}
     // Echo the data you want to show in modal
@@ -80,8 +78,7 @@ if($_POST['history_id']) {
               <strong>TRANSFER TYPE:</strong> <?php echo $transferType . ' (' . $quantity . ')';?><br>
               <strong>UNIT COST:</strong> ₱<?php echo $unitCost; ?><br>
               <strong>CUSTOMER NAME:</strong> <?php echo $customerName; ?><br>
-              <strong>MODEL:</strong> <?php echo $model; ?><br>
-              <strong>SERIAL #:</strong> <?php echo $serialNumber; ?><br>
+              <strong>DETAILS:</strong> <?php echo $details; ?><br>
             </div>
             <div class="col-md-6">
               <br>                                 

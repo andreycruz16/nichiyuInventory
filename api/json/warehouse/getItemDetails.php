@@ -1,6 +1,6 @@
 <?php 
 
-	require '../../database.php';
+	require '../../../database.php';
 
 	if(!empty($_GET['partNumber'])) {
 		$partNumber = $_GET['partNumber'];

@@ -55,6 +55,13 @@
         $receivingReport = strip_tags($receivingReport);
         $receivingReport = strtoupper($receivingReport);
 
+        $details = $_POST['details'];
+        if($details == "") { $details = 'N/A'; };
+        $details = mysqli_real_escape_string($conn, $details);
+        $details = trim($details);
+        $details = strip_tags($details);
+        $details = strtoupper($details);  
+
         $sql = "INSERT INTO tbl_item_history VALUES(NULL,
                                                      ".$item_id.",
                                                      ".$_SESSION['userType_id'].",
@@ -67,8 +74,7 @@
                                                      ".$unitCost.",
                                                      ".$quantity.",
                                                      'N/A',
-                                                     'N/A',
-                                                     'N/A',
+                                                     '".$details."',
                                                      ".$_SESSION['user_id'].",
                                                      'N/A');";                    
         $retval = mysqli_query($conn, $sql);

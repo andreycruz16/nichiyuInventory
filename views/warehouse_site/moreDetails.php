@@ -134,7 +134,7 @@
                       <div class="form-group input-group col-md-12">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Order Point:</span>
+                                <span class="input-group-addon" id="basic-addon1">Minimum&nbsp;Stock&nbsp;Count:</span>
                                 <input type="text" name="minStockCount" id="minStockCount" class="form-control" value="<?php echo $minStockCount; ?>" aria-describedby="basic-addon1" disabled readonly required>
                             </div><br>
                             <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#editItemDetails" data-id="<?php echo $item_id; ?>"><strong>Edit</strong> <span class="glyphicon glyphicon-edit"></span></button>
@@ -189,10 +189,9 @@
                                         <tr>
                                             <th class="text-center" bgcolor="#e5e5e5" width="15">ID</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Date&nbsp;(M/D/Y)</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Model</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Serial&nbsp;#</th>
+                                            <th class="text-center" bgcolor="#f2ba7f">Details</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Customer</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;Type</th>
+                                            <th class="text-center" bgcolor="#f2ba7f">Document&nbsp;Type</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;#</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Receiving&nbsp;Report</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Transfer&nbsp;Type</th>
@@ -204,7 +203,6 @@
                                     <tfoot>
                                         <tr>
                                             <th class="text-center" bgcolor="#e5e5e5" width="15"></th> 
-                                            <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
@@ -229,8 +227,7 @@
                                                tbl_item_history.receivingReport, 
                                                tbl_item_history.transferType, 
                                                tbl_item_history.customerName, 
-                                               tbl_item_history.model, 
-                                               tbl_item_history.serialNumber, 
+                                               tbl_item_history.details, 
                                                tbl_item_history.quantity, 
                                                tbl_item_history.user_id 
                                                FROM tbl_item_history 
@@ -252,17 +249,15 @@
                                             $receivingReport = $row[5];
                                             $transferType = $row[6];
                                             $customerName = $row[7];
-                                            $model = $row[8];
-                                            $serialNumber = $row[9];
-                                            $quantity = $row[10];
-                                            $user_id = $row[11];
+                                            $details = $row[8];
+                                            $quantity = $row[9];
+                                            $user_id = $row[10];
                                             $stockOnHand += $quantity;
                                     ?>
                                         <tr>
                                             <td class="text-center"><?php  echo $history_id ?></td>
                                             <td class="text-center"><?php echo date('m/d/Y', strtotime($date)); ?></td>
-                                            <td class="text-center"><?php echo $model; ?></td>
-                                            <td class="text-center"><?php echo $serialNumber; ?></td>
+                                            <td class="text-center"><?php echo $details; ?></td>
                                             <td class="text-center"><?php echo $customerName; ?></td>
                                             <td class="text-center"><?php echo $referenceType; ?></td>
                                             <td class="text-center"><?php echo $referenceNumber; ?></td>

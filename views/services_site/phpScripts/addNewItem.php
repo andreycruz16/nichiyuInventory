@@ -74,12 +74,10 @@
                                                      0,
                                                      'N/A',
                                                      'N/A',
-                                                     'N/A',
                                                      ".$_SESSION['user_id'].",
                                                      'N/A');"; 
             mysqli_query($conn, $sql);
 
-            // echo "<script>alert('NEW ITEM ADDED SUCCESSFULLY.'); window.location.href = '../moreDetails.php?item_id=".$row[0]."'</script>";
             echo "<script>alert('NEW ITEM ADDED SUCCESSFULLY.'); window.location.href = '../index.php'</script>";
         } else {
             echo "<script>alert('THIS PART NUMBER ALREADY EXISTS. '); window.location.href = '../index.php'</script>";

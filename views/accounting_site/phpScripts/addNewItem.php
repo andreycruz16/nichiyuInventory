@@ -75,7 +75,6 @@
                                                      0,
                                                      'N/A',
                                                      'N/A',
-                                                     'N/A',
                                                      ".$_SESSION['user_id'].",
                                                      'N/A');"; 
             mysqli_query($conn, $sql);

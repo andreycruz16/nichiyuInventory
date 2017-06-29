@@ -192,8 +192,7 @@
                                         <tr>
                                             <th class="text-center" bgcolor="#e5e5e5" width="15">ID</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Date&nbsp;(M/D/Y)</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Model</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Serial&nbsp;#</th>
+                                            <th class="text-center" bgcolor="#f2ba7f">Details</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Customer</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;Type</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;#</th>
@@ -209,7 +208,6 @@
                                     <tfoot>
                                         <tr>
                                             <th class="text-center" bgcolor="#e5e5e5" width="15"></th> 
-                                            <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th>
@@ -236,8 +234,7 @@
                                                tbl_item_history.receivingReport, 
                                                tbl_item_history.transferType, 
                                                tbl_item_history.customerName, 
-                                               tbl_item_history.model, 
-                                               tbl_item_history.serialNumber, 
+                                               tbl_item_history.details, 
                                                tbl_item_history.quantity, 
                                                tbl_item_history.user_id, 
                                                tbl_item_history.unitCost 
@@ -261,18 +258,16 @@
                                             $receivingReport = $row[5];
                                             $transferType = $row[6];
                                             $customerName = $row[7];
-                                            $model = $row[8];
-                                            $serialNumber = $row[9];
-                                            $quantity = $row[10];
-                                            $user_id = $row[11];
-                                            $unitCost = $row[12];
+                                            $details = $row[8];
+                                            $quantity = $row[9];
+                                            $user_id = $row[10];
+                                            $unitCost = $row[11];
                                             $stockOnHand += $quantity;
                                     ?>
                                         <tr>
                                             <td class="text-center"><?php  echo $history_id ?></td>
                                             <td class="text-center"><?php echo date('m/d/Y', strtotime($date)); ?></td>
-                                            <td class="text-center"><?php echo $model; ?></td>
-                                            <td class="text-center"><?php echo $serialNumber; ?></td>
+                                            <td class="text-center"><?php echo $details; ?></td>
                                             <td class="text-center"><?php echo $customerName; ?></td>
                                             <td class="text-center"><?php echo $referenceType; ?></td>
                                             <td class="text-center"><?php echo $referenceNumber; ?></td>

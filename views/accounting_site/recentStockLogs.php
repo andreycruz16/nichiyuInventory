@@ -51,7 +51,7 @@
                                                     <th class="text-center" bgcolor="#e5e5e5" width="155">TIMESTAMP</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Date&nbsp;(M/D/Y)</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Document&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
@@ -66,7 +66,7 @@
                                                     <th class="text-center" bgcolor="#e5e5e5" width="155">TIMESTAMP</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Date&nbsp;(M/D/Y)</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Document&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>

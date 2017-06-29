@@ -56,9 +56,8 @@
         <div id="page-wrapper">
             <div class="header"> 
                 <h2 class="page-header">
-                    <!-- <code class="text-success">ADMINISTRATOR</code> -->
-                    <span class="text-success">ADMINISTRATOR</span>
-                    <!-- <code class="text-success"><?php echo $_SERVER['REMOTE_ADDR']; ?></code> -->
+                    <span class="text-success">ADMINISTRATOR</span><br>
+                    <code class="text-success">HOST ADDRESS: <?php echo $_SERVER['HTTP_HOST']; ?></code>
                 </h2>
                 <ol class="breadcrumb">
                     <li class="active">All Records</li>

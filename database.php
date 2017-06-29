@@ -4,7 +4,7 @@
 	$server_name   = "localhost";
 	$username      = "root";
 	$password      = "";
-	$database_name = "db_nichiyu_new";
+	$database_name = "db_nichiyu_june2017";
 
 	$conn = mysqli_connect($server_name, $username, $password, $database_name) or die(mysql_error());
  ?>

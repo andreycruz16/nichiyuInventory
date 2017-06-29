@@ -1,6 +1,6 @@
 <?php 
 
-	require '../../database.php';
+	require '../../../database.php';
 
     $lowStocks = 0;
     $outOfStocks = 0;

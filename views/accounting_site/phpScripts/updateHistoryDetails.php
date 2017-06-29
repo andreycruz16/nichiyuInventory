@@ -60,13 +60,9 @@
         $unitCost = mysqli_real_escape_string($conn, $unitCost);
         $unitCost = trim($unitCost);
 
-        $model = $_POST['model'];
-        $model = mysqli_real_escape_string($conn, $model);
-        $model = trim($model);
-
-        $serialNumber = $_POST['serialNumber'];
-        $serialNumber = mysqli_real_escape_string($conn, $serialNumber);
-        $serialNumber = trim($serialNumber);
+        $details = $_POST['details'];
+        $details = mysqli_real_escape_string($conn, $details);
+        $details = trim($details);
 
         $comment = $_POST['comment'];
         $comment = mysqli_real_escape_string($conn, $comment);
@@ -84,8 +80,7 @@
                   unitCost = '".$unitCost."',
                   quantity = ".$quantity.",
                   customerName = '".$customerName."',
-                  model = '".$model."',
-                  serialNumber = '".$serialNumber."',
+                  details = '".$details."',
                   user_id = ".$_SESSION['user_id'].",
                   comment = '".$comment."'
                 WHERE
