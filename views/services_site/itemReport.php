@@ -3,6 +3,8 @@
 include('session.php');
 require_once('../../assets/tcpdf/tcpdf.php');
 
+$GLOBALS['grandTotal'] = 0;
+
 if($_GET['item_id']) {
     $item_id = $_GET['item_id'];
     $GLOBALS['item_id'] = $item_id;
@@ -37,9 +39,8 @@ class MYPDF extends TCPDF {
 
         $this->Ln();
         $this->SetFont('helvetica', 'R', 8);
-        $this->Cell(0, 0, '# 9M.FLORES ST. STO. ROSARIO SILANGAN, PATEROS M.M.', 0, 0, 'C');
+        $this->Cell(0, 0, '# 9M.FLORES ST. STO. ROSARIO SILANGAN, PATEROS M.M.', 0, 0.5, 'C');
 
-        $this->Ln();
         $this->Ln();
         $this->SetFont('helvetica', 'B', 10);
         $this->Cell(0, 0, 'ITEM TRANSACTION HISTORY', 0, 0, 'C');
@@ -53,7 +54,7 @@ class MYPDF extends TCPDF {
         $this->Cell(0, 0, 'As of '.date('F d, Y'), 0, 0, 'C');
 
         $this->Ln();
-        $this->SetFont('helvetica', 'R', 10);
+        $this->SetFont('helvetica', 'R', 12);
         $this->Cell(0, 10, 'Description: '.$GLOBALS['description'].'          Part Number: '.$GLOBALS['partNumber'], 0, 0, '');
 
         $this->SetMargins(0, 44, 0);
@@ -119,16 +120,16 @@ $txt = '
 
 <table rules="all" border=".5" width="100%">
         <tr style="background-color:#555; color:#fff;">
-            <th align="center" width="4%">#</th>
-            <th align="center" width="7.5%"> Date</th>
-            <th align="center" width="11.5%"> Reference Type</th>
-            <th align="center" width="14%"> Reference #</th>
-            <th align="center" width="12.5%"> Receiving Report</th>
-            <th align="center" width="9.5%"> Transfer&nbsp;Type</th>
-            <th align="center" width="11.5%"> Unit&nbsp;Cost</th>
-            <th align="center" width="9.5%"> Quantity</th>
-            <th align="center" width="11.5%"> Total Cost</th>
-            <th align="center" width="9.0%"> Stock on hand</th>
+            <th align="center" width="5%">#</th>
+            <th align="center" width="8%"> Date</th>
+            <th align="center" width="12%"> Document Type</th>
+            <th align="center" width="15%"> Reference Number</th>
+            <th align="center" width="10%"> RR Number</th>
+            <th align="center" width="10%"> Transfer Type</th>
+            <th align="center" width="10%"> Unit Cost</th>
+            <th align="center" width="10%"> Quantity</th>
+            <th align="center" width="10%"> Stock on hand</th>
+            <th align="center" width="10%"> Total Cost</th>
         </tr>';
 require '../../database.php';
 $sql = "SELECT 
@@ -144,9 +145,10 @@ $sql = "SELECT
        tbl_item_history.unitCost 
        FROM tbl_item_history 
        INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
+       INNER JOIN tbl_item ON tbl_item_history.item_id = tbl_item.item_id
+       WHERE tbl_item.item_id = ".$item_id." 
+       AND tbl_item.userType_id = ".$_SESSION['userType_id']."
        AND tbl_reference.reference_id != 0
-       WHERE item_id = ".$item_id." 
-       AND dept_id = 3
        ORDER BY tbl_item_history.history_id ASC;";
 
         $result = mysqli_query($conn, $sql);
@@ -159,7 +161,6 @@ $sql = "SELECT
                 $referenceType = $row[2];
                 $referenceNumber = $row[3];
                 $receivingReport = $row[4];
-                // if($receivingReport == 'N/A') $receivingReport = '-';
                 $transferType = $row[5];
                 $quantity = $row[6];
                 $username = $row[7];
@@ -167,6 +168,8 @@ $sql = "SELECT
                 $unitCost = $row[9];
                 $stockOnHand = $stockOnHand + $quantity;
 
+                $totalCost = $quantity * $unitCost;
+                $grandTotal += $totalCost;
 
 $txt.='       
         <tr>
@@ -176,10 +179,10 @@ $txt.='
             <td align="center" style="white-space:nowrap;"> '. $referenceNumber .'</td>
             <td align="center" style="white-space:nowrap;"> '. $receivingReport .'</td>
             <td align="center" style="white-space:nowrap;"> '. $transferType .'</td>
-            <td align="center" style="white-space:nowrap;"> PHP&nbsp;'. $unitCost .'</td>
+            <td align="right" style="white-space:nowrap;"> '. $unitCost .'&nbsp;&nbsp;</td>
             <td align="center" style="white-space:nowrap;"> '. $quantity .'</td>
-            <td align="center" style="white-space:nowrap;"> PHP&nbsp;'. number_format((float)abs($quantity*$unitCost), 2, '.', '') .'</td>
             <td align="center" style="white-space:nowrap;"> '. $stockOnHand .'</td>
+            <td align="right" style="white-space:nowrap;"> '. number_format((float)abs($totalCost), 2, '.', '') .'&nbsp;&nbsp;</td>
         </tr>                                                                   
     ';
 
@@ -190,6 +193,7 @@ $txt.='
 
 $txt.='
 </table>
+<h2 align="right"><b>Grand Total:</b> '.$grandTotal.'</h2>
 <p align="center"><i>____________NOTHING FOLLOWS____________</i></p>
     ';
 

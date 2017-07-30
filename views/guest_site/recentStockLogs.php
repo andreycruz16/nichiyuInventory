@@ -61,7 +61,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="5">Transfer&nbsp;Type</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -76,7 +76,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Transfer&nbsp;Type</th>
                                                     <!-- <th bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -102,7 +102,7 @@
                                                        INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
                                                        INNER JOIN tbl_users ON tbl_item_history.user_id = tbl_users.user_id
                                                        INNER JOIN tbl_item ON tbl_item.item_id = tbl_item_history.item_id
-                                                       WHERE tbl_item_history.dept_id = 3
+                                                       WHERE tbl_item_history.dept_id = 1
                                                        ORDER BY tbl_item_history.history_id DESC;";   
                                                 // echo $sql;
                                                 $result = mysqli_query($conn, $sql);
@@ -161,7 +161,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="5">Transfer&nbsp;Type</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -176,7 +176,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Transfer&nbsp;Type</th>
                                                     <!-- <th bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->

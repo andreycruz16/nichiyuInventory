@@ -4,11 +4,11 @@
 	if (!empty($_POST)) {
         $partNumber = $_POST['partNumber'];
         $partNumber = mysqli_real_escape_string($conn, $partNumber);
-        $partNumber = trim($partNumber); 
-        $partNumber = strip_tags($partNumber); 
+        $partNumber = trim($partNumber);
+        $partNumber = strip_tags($partNumber);
         $partNumber = strtoupper($partNumber);
 
-        $sql = "SELECT tbl_item.partNumber FROM tbl_item WHERE tbl_item.partNumber = '".$partNumber."' AND dept_id = 3 AND status = 0;";
+        $sql = "SELECT tbl_item.partNumber FROM tbl_item WHERE tbl_item.partNumber = '".$partNumber."' AND userType_id = ".$_SESSION['userType_id']." AND status = 0;";
         if(!$result = mysqli_query($conn, $sql)) {
             exit(mysqli_error($conn));
         }
@@ -32,6 +32,12 @@
         $transferType = $_POST['transferType'];
         $transferType = mysqli_real_escape_string($conn, $transferType);
         $transferType = trim($transferType);
+        $transferType = strip_tags($transferType);
+
+        $itemType_id = $_POST['itemType_id'];
+        $itemType_id = mysqli_real_escape_string($conn, $itemType_id);
+        $itemType_id = trim($itemType_id);
+        $itemType_id = strip_tags($itemType_id);
 
         $sql = "INSERT INTO tbl_item VALUES(NULL,
                                             NOW(),
@@ -40,7 +46,8 @@
                                             'N/A',
                                              ".$orderPoint.",
                                              '0',
-                                             3
+                                             3,
+                                             ".$itemType_id."
                                              );";                  
         $retval = mysqli_query($conn, $sql);
 

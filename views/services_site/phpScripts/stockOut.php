@@ -14,8 +14,8 @@
 
         $partNumber = $_POST['partNumber'];
         $partNumber = mysqli_real_escape_string($conn, $partNumber);
-        $partNumber = trim($partNumber);
-        $partNumber = strip_tags($partNumber);
+        $partNumber = trim($partNumber);        
+        $partNumber = strip_tags($partNumber);        
         $partNumber = strtoupper($partNumber);
 
         $date = $_POST['date'];
@@ -32,6 +32,10 @@
         $referenceNumber = strip_tags($referenceNumber);
         $referenceNumber = strtoupper($referenceNumber);
 
+        $oldUnitCost = $_POST['oldUnitCost'];
+        $oldUnitCost = mysqli_real_escape_string($conn, $oldUnitCost);
+        $oldUnitCost = trim($oldUnitCost);
+
         $quantity = $_POST['quantity'];
         $quantity = mysqli_real_escape_string($conn, $quantity);
         $quantity = trim($quantity);
@@ -40,10 +44,10 @@
         $oldQuantity = mysqli_real_escape_string($conn, $oldQuantity);
         $oldQuantity = trim($oldQuantity);
 
-        if($quantity > $oldQuantity) {
-            echo "<script>alert('ENTER A VALID QUANTITY. UPDATE NOT SAVED. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
-            exit();
-        }
+        // if($quantity > $oldQuantity) {
+        //     echo "<script>alert('ENTER A VALID QUANTITY. UPDATE NOT SAVED. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
+        //     exit();
+        // }
         $quantity = -abs($quantity); //converts positive number to negative
 
         $transferType = $_POST['transferType'];
@@ -65,19 +69,19 @@
 
         $sql = "INSERT INTO tbl_item_history VALUES(NULL,
                                                      ".$item_id.",
-                                                     3,
+                                                     ".$_SESSION['userType_id'].",
                                                      now(),
                                                      '".$date."',
                                                      '".$reference_id."',
                                                      '".$referenceNumber."',
                                                      'N/A',
                                                      '".$transferType."',
-                                                     0,
+                                                     ".$oldUnitCost.",
                                                      ".$quantity.",
                                                      '".$customerName."',
                                                      '".$details."',
                                                      ".$_SESSION['user_id'].",
-                                                     'N/A');";                    
+                                                     'N/A');";        
         $retval = mysqli_query($conn, $sql);
         if ($retval) {
             echo "<script>alert('ITEM UPDATED SUCCESSFULLY.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";

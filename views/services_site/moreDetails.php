@@ -11,14 +11,16 @@
                 tbl_item.boxNumber,
                 tbl_item.minStockCount,
                 SUM(tbl_item_history.quantity),
-                tbl_item_history.dept_id,
-                tbl_item_history.history_id
+                tbl_item_history.userType_id,
+                tbl_item_history.history_id,
+                tbl_itemType.itemTypeName
                 FROM tbl_item_history
                 INNER JOIN tbl_item
                 ON tbl_item.item_id = tbl_item_history.item_id
-                WHERE tbl_item_history.dept_id = 3
+                INNER JOIN tbl_itemType
+                ON tbl_item.itemType_id = tbl_itemType.itemType_id
+                WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']." AND tbl_item.status = 0
                 AND tbl_item_history.item_id = ".$item_id."
-                AND tbl_item.status = 0
                 GROUP By tbl_item_history.item_id;";
 
         $result = mysqli_query($conn, $sql);
@@ -30,8 +32,9 @@
                     $boxNumber = $row[3];
                     $minStockCount = $row[4];
                     $quantity = $row[5];
-                    $dept_id = $row[6];
+                    $userType_id = $row[6];
                     $history_id = $row[7];
+                    $itemType = $row[8];
 
             }
         } else {
@@ -134,13 +137,9 @@
                       <div class="form-group input-group col-md-12">
                         <div class="col-md-6">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1">Minimum&nbsp;Stock&nbsp;Count:</span>
+                                <span class="input-group-addon" id="basic-addon1">Order Point:</span>
                                 <input type="text" name="minStockCount" id="minStockCount" class="form-control" value="<?php echo $minStockCount; ?>" aria-describedby="basic-addon1" disabled readonly required>
                             </div>
-                            <br>
-                            <!-- <button data-toggle="modal" data-target="#stockIn" data-toggle-tooltip="tooltip" title="IN" class="btn btn-success btn-sm" data-id="<?php echo $item_id; ?>"><span class="glyphicon glyphicon-plus"></span><strong> IN</strong></button> -->
-                            <!-- <button data-toggle="modal" data-target="#stockOut" data-toggle-tooltip="tooltip" title="OUT" class="btn btn-danger btn-sm" data-id="<?php echo $item_id; ?>"><span class="glyphicon glyphicon-minus"></span><strong> OUT</strong></button>            -->
-                            <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#editItemDetails" data-id="<?php echo $item_id; ?>"><strong>Edit</strong> <span class="glyphicon glyphicon-edit"></span></button>
                          </div>
                          <div class="col-md-6">
                             <div class="input-group">
@@ -149,33 +148,18 @@
                             </div>
                          </div>
                       </div>
+                      <div class="form-group input-group col-md-12">
+
+                         <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Item Type:</span>
+                                <input type="text" name="itemType" id="itemType" class="form-control" value="<?php echo $itemType; ?>" aria-describedby="basic-addon1" disabled readonly required>
+                            </div>
+                           <br>
+                              <button type="button" class="btn btn-primary btn-sm" title="Edit" data-toggle="modal" data-target="#editItemDetails" data-id="<?php echo $item_id; ?>"><strong>Edit</strong> <span class="glyphicon glyphicon-edit"></span></button>
+                         </div>
+                      </div>
                   </div>
-<!--                   <div class="col-md-2">
-                    <div class="form-group input-group col-md-12">
-                        <div class="text-center">
-                        <?php 
-                            //set it to writable location, a place for temp generated PNG files
-                            $PNG_TEMP_DIR = '../../assets/QrCodes/';
-                            $PNG_WEB_DIR = $PNG_TEMP_DIR;
-
-                            include "../../assets/phpqrcode/qrlib.php";
-                            
-                            if (!file_exists($PNG_TEMP_DIR))
-                                mkdir($PNG_TEMP_DIR);
-
-                            $qrValue = $partNumber;
-                            $filename = $PNG_TEMP_DIR.$qrValue.'.png';
-                            $errorCorrectionLevel = 'H';
-                            $matrixPointSize = 10;
-                            
-                            QRcode::png($qrValue, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
-                               
-                            //display generated file
-                            echo '<a href="'.$PNG_WEB_DIR.$qrValue.'.png" target="_blank"><img class="img-thumbnail" width="100px" height="100px" title="Right Click > Save image as.. > Save" src="'.$PNG_WEB_DIR.basename($filename).'" /></a>';  
-                         ?>                                              
-                        </div>                                    
-                    </div>                          
-                  </div> -->
                 </div>
             </div>            
             <div class="row">
@@ -194,7 +178,7 @@
                                             <th class="text-center" bgcolor="#f2ba7f">Date&nbsp;(M/D/Y)</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Details</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Customer</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Document&nbsp;Type</th>
+                                            <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;Type</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;#</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Receiving&nbsp;Report</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Transfer&nbsp;Type</th>
@@ -234,14 +218,14 @@
                                                tbl_item_history.receivingReport, 
                                                tbl_item_history.transferType, 
                                                tbl_item_history.customerName, 
-                                               tbl_item_history.details,
+                                               tbl_item_history.details, 
                                                tbl_item_history.quantity, 
                                                tbl_item_history.user_id, 
                                                tbl_item_history.unitCost 
                                                FROM tbl_item_history 
                                                INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
                                                WHERE item_id = ".$item_id." 
-                                               AND dept_id = 3
+                                               AND userType_id = ".$_SESSION['userType_id']."
                                                AND tbl_reference.reference_id != 0
                                                ORDER BY tbl_item_history.history_id ASC;";
 
@@ -277,7 +261,8 @@
                                             <td class="text-center"><?php echo $quantity; ?></td>
                                             <?php 
                                               if($transferType == 'OUT') {
-                                                $totalCost = 0;
+                                                $totalCost = ($quantity * $unitCost);
+                                                $totalCost = abs($totalCost);
                                               } else {
                                                 $totalCost = ($quantity * $unitCost);
                                               }
@@ -428,7 +413,13 @@
                 'iDisplayLength': 15, 
                 'lengthMenu': [ [15, 25, 50, 100, -1], [15, 25, 50, 100, 'All'] ],
                 'order': [ 0, 'desc' ],
-                'bSort': true
+                'bSort': true,
+                "columnDefs": [
+                                  {
+                                      "targets": [ 0 ],
+                                      "visible": false
+                                  }
+                              ]
                  });
             });
 

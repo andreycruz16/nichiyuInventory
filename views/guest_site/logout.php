@@ -6,7 +6,7 @@
 	$sql = "INSERT INTO tbl_activity_logs VALUES(NULL,
 	                                           '".$_SESSION['user_id']."',
 	                                           now(),
-	                                           8,
+	                                           1,
 	                                           'User has logged out'
 	                                           );";        
 	mysqli_query($conn, $sql);

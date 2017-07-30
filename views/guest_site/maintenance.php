@@ -24,39 +24,78 @@
                 </ol>
             </div>
             <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                <!-- <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Change Password
-                            </div>
+                                &nbsp;Deleted Items (Newest - Oldest)
+                            </div> 
                             <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <form role="form" action="phpScripts/changePassword.php" method="post">
-                                            <div class="form-group">
-                                                <label class="control-label" for="inputWarning">Current password:</label>
-                                                <input type="text" class="form-control" name="oldPassword" placeholder="●●●●●●●●●●" autocomplete="off" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label" for="inputError">New password:</label>
-                                                <input type="text" class="form-control" name="newPassword1" placeholder="●●●●●●●●●●" autocomplete="off" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label" for="inputSuccess">Confirm password:</label>
-                                                <input type="text" class="form-control" name="newPassword2" placeholder="●●●●●●●●●●" autocomplete="off" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-block btn-primary">Save</button>       
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>                                
-                                <br>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-condensed table-hover" id="deletedItemsTable">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" bgcolor="e5e5e5" width="10">ID</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;#/Model</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Description</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Department</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-center" bgcolor="e5e5e5" width="">&nbsp;</th>
+                                                <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        <?php 
+                                            require '../../database.php';
+
+                                            $sql = "SELECT 
+                                                    tbl_item.item_id,
+                                                    tbl_item.description,
+                                                    tbl_item.partNumber,
+                                                    tbl_user_type.userType
+                                                    FROM tbl_item
+                                                    INNER JOIN tbl_user_type
+                                                    ON tbl_item.dept_id = tbl_user_type.userType_id
+                                                    WHERE tbl_item.status = 1;";
+
+                                            $result = mysqli_query($conn, $sql);
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                                    $item_id = $row[0];
+                                                    $description = $row[1];
+                                                    $partNumber = $row[2];
+                                                    $userType = $row[3];
+                                        ?>
+                                            <tr class="<?php if($quantity < $minStockCount AND $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>">
+                                                <td class="text-center"><?php  echo $item_id; ?></td>
+                                                <td><?php  echo $partNumber; ?></td>
+                                                <td><?php  echo $description; ?></td>
+                                                <td><?php  echo $userType; ?></td>
+                                                <td class="text-center" style="white-space:nowrap;">
+                                                    <button data-toggle="modal" data-target="#restoreItem" data-toggle-tooltip="tooltip" title="Restore Item" class="btn btn-success btn-xs" data-id="<?php echo $item_id; ?>"> Restore Item <span class="glyphicon glyphicon-plus"></span></button>
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                                }
+                                            }
+                                            mysqli_close($conn);
+                                        ?>                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                          
+                        </div>                       
+                    </div>                  
+                </div> -->
+                <div class="row">                    
+                    <div class="col-md-5 col-sm-5 col-xs-5">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Database Options
@@ -142,25 +181,30 @@
     </div>
     <?php include("includes/scripts.php") ?>
     <script>
-            $(document).ready(function () {
-                $('#recordHistory').dataTable({
-                'iDisplayLength': 15, 
-                'lengthMenu': [ [15, 25, 50, 100, -1], [15, 25, 50, 100, 'All'] ],
+        $(document).ready(function () {
+                $('#deletedItemsTable').dataTable({
+                'iDisplayLength': 10, 
+                'lengthMenu': [ [25, 50, 100, -1], [25, 50, 100, 'All'] ],
                 'order': [ 0, 'desc' ],
+                'bSort': true
                  });
-            });
 
-            $('.form_date').datetimepicker({
-                // language:  'fr',
-                format:'yyyy-mm-dd',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            }); 
+            var table = $('#deletedItemsTable').DataTable();
+         
+            $("#deletedItemsTable tfoot th").each( function ( i ) {
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(this).empty() )
+                    .on( 'change', function () {
+                        table.column( i )
+                            .search( $(this).val() )
+                            .draw();
+                    } );
+         
+                table.column( i ).data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );           
+        } ); 
     </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Include database connection
 require '../../../database.php';
 if($_POST['item_id']) {
@@ -11,11 +12,12 @@ if($_POST['item_id']) {
             tbl_item.boxNumber,
             tbl_item.minStockCount,
             SUM(tbl_item_history.quantity),
-            tbl_item_history.dept_id
+            tbl_item_history.userType_id,
+            tbl_item_history.unitCost
             FROM tbl_item_history
             INNER JOIN tbl_item
             ON tbl_item.item_id = tbl_item_history.item_id
-            WHERE tbl_item_history.dept_id = 4
+            WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']."
             AND tbl_item.status = 0
             AND tbl_item_history.item_id = ".$item_id."
             GROUP By tbl_item_history.item_id;";
@@ -29,10 +31,23 @@ if($_POST['item_id']) {
             $boxNumber = $row[3];
             $minStockCount = $row[4];
             $quantity = $row[5];
-            $dept_id = $row[6];
+            $userType_id = $row[6];
+
+             $sqlUnitCost = "SELECT 
+                       tbl_item_history.unitCost 
+                       FROM tbl_item_history 
+                       INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
+                       WHERE item_id = ".$item_id." 
+                       AND userType_id = ".$_SESSION['userType_id']."
+                       AND tbl_reference.reference_id != 0
+                       ORDER BY tbl_item_history.history_id ASC;";
+            $resultUnitCost = mysqli_query($conn, $sqlUnitCost);
+            $rowUnitCost = mysqli_fetch_array($resultUnitCost, MYSQL_NUM);
+
+
+            $oldUnitCost = $rowUnitCost[0];
 		}
 	}
-    // Echo the data you want to show in modal
  } else {
     header("Location: ../index.php"); // Redirecting to All Records Page
  }
@@ -46,10 +61,6 @@ if($_POST['item_id']) {
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">               
-<!--             <div class="form-group">
-                <label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label><strong>Required</strong>
-                <label class="text-primary"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label><strong>Optional</strong>
-            </div> -->
             <form role="form" class="form-horizontal" action="phpScripts/stockOut.php" method="post">  
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Date:</span>
@@ -59,7 +70,7 @@ if($_POST['item_id']) {
                 </div>
                 <br>
                 <div class="input-group col-md-12">
-                    <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Reference:</span>
+                    <span class="input-group-addon" id="reference_id_label"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Reference:</span>
                     <select class="form-control" name="reference_id" id="reference_id_out" required>
                         <option value="" selected disabled>Document Type</option>
                         <?php 
@@ -90,7 +101,37 @@ if($_POST['item_id']) {
                     <input type="text" name="details" class="form-control" id="details" placeholder="Details (Optional)" aria-describedby="basic-addon1" autocomplete="on">
                 </div>
                 <br>
-                <h5><strong><?php echo $description; ?> Current Quantity: <span class="text-success"><?php echo $quantity; ?></span></strong></h5>
+                <div class="input-group col-md-12">
+                    <span class="input-group-addon" id="reference_id_label"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Unit Cost:</span>
+                    <span class="input-group-addon" id="basic-addon1">₱</span>
+                    <select class="form-control" name="oldUnitCost" id="oldUnitCost_out" required>
+                        <option value="" selected disabled>Choose Cost</option>
+                        <?php
+                            require '../../../database.php';
+
+                            $sql = "SELECT h.unitCost, h.quantity FROM tbl_item_history AS h WHERE h.item_id = ".$item_id."
+                                    AND h.unitCost != 0
+                                    AND h.transferType = 'IN'
+                                    GROUP BY h.unitCost;";
+
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0) {
+                                while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                    $unitCost = $row[0];
+                                    $Outquantity = $row[1];
+                        ?>
+                            <option value="<?php echo $unitCost; ?>"><?php echo $unitCost; ?></option>
+
+
+                        <?php 
+                                }
+                            }
+                            mysqli_close($conn);
+                        ?>                           
+                    </select>
+                </div>
+                <!-- <h5><strong>Recent Unit Cost: <span class="text-success">₱ <?php echo $oldUnitCost; ?></span></strong></h5> -->
+                <h5><strong>Current Quantity: <span class="text-success"><?php echo $quantity; ?></span></strong></h5>
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Quantity (OUT):</span>
                     <input type="number" min="1" name="quantity" class="form-control" id="quantity" placeholder="0" aria-describedby="basic-addon1" required autocomplete="off">
@@ -100,6 +141,7 @@ if($_POST['item_id']) {
                 <input type="hidden" name="partNumber" id="partNumber" value="<?php echo $partNumber; ?>"> 
                 <input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>"> 
                 <input type="hidden" name="oldQuantity" id="oldQuantity" value="<?php echo $quantity; ?>"> 
+                <!-- <input type="hidden" name="oldUnitCost" id="oldUnitCost" value="<?php echo $oldUnitCost; ?>">  -->
                 <br>
                 <button type="submit" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-floppy-disk"></span> Update</button>
                 <br>
@@ -122,6 +164,7 @@ if($_POST['item_id']) {
             $('#referenceNumber_out').attr('placeholder', 'Reference Number');
             $('#receivingReport_out').fadeOut().val("N/A");
         } else if($(this).val() == '4') { //INVOICE
+            $('#reference_id_label').text('some text')
             $('#referenceNumber_out').fadeIn().val("");
             $('#referenceNumber_out').attr('placeholder', 'Reference Number / DR: Delivery Receipt');
             $('#receivingReport_out').fadeOut().val("N/A");

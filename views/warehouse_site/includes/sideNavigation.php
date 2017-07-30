@@ -8,14 +8,14 @@
 <!--             <li>
                 <a class="<?php if(basename($_SERVER['REQUEST_URI']) == 'lowStocks.php') echo 'active-menu'; else echo ''; ?>" href="lowStocks.php"><i class="glyphicon glyphicon-minus"></i> Low Stocks</a>
             </li> -->
-            <li>
-                <a class="<?php if(basename($_SERVER['REQUEST_URI']) == 'recentStockLogs.php') echo 'active-menu'; else echo ''; ?>" href="recentStockLogs.php"><i class="glyphicon glyphicon-dashboard"></i> Recent Transactions</a>
-            </li>
 <!--             <li>
                 <a class="<?php if(basename($_SERVER['REQUEST_URI']) == '#') echo 'active-menu'; else echo ''; ?>" href="#"><i class="glyphicon glyphicon-stats"></i> Stock Charts</a>
             </li> -->
             <li>
                 <a class="<?php if(basename($_SERVER['REQUEST_URI']) == 'reports.php') echo 'active-menu'; else echo ''; ?>" href="reports.php"><i class="glyphicon glyphicon-print"></i> Reports</a>
+            </li>
+            <li>
+                <a class="<?php if(basename($_SERVER['REQUEST_URI']) == 'recentStockLogs.php') echo 'active-menu'; else echo ''; ?>" href="recentStockLogs.php"><i class="glyphicon glyphicon-dashboard"></i> Transaction Logs</a>
             </li>
             <li>
                 <a class="<?php if(basename($_SERVER['REQUEST_URI']) == 'userActivityLogs.php') echo 'active-menu'; else echo ''; ?>" href="userActivityLogs.php"><i class="glyphicon glyphicon-user"></i> User Activity Logs</a>

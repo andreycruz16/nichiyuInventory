@@ -87,15 +87,15 @@ if($_POST['history_id']) {
                 </div><br>
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1">Transfer Type:</span>
-                    <select class="form-control" name="transferType" id="transferType_editHistory">
+                    <select class="form-control" name="transferType" id="transferType">
                         <option value="OUT" <?php if($transferType == 'OUT') echo "selected"; ?>>OUT</option>
                         <option value="IN" <?php if($transferType == 'IN') echo "selected"; ?>>IN</option>
                     </select> 
                 </div><br> 
                 <div class="input-group col-md-12">
-                  <span class="input-group-addon" id="basic-addon1"><label class="text-danger"></label> Document Type:</span>
+                  <span class="input-group-addon" id="basic-addon1"><label class="text-danger"></label> Reference:</span>
                   <select class="form-control" name="reference_id" id="reference_idModal" required>
-                    <option value="" selected disabled>Document Type</option>
+                    <option value="" selected disabled>Reference Type</option>
                         <?php 
                             $sql = "SELECT * FROM tbl_reference WHERE reference_id != 0;";
 
@@ -106,6 +106,8 @@ if($_POST['history_id']) {
                                     $referenceName = $row[1];
                         ?>
                             <option value="<?php echo $reference_id; ?> " <?php if($referenceType == $referenceName) echo "selected"; ?>><?php echo $referenceName; ?></option>
+
+
                         <?php 
                                 }
                             }
@@ -154,7 +156,7 @@ if($_POST['history_id']) {
                 <input type="hidden" name="partNumber" id="partNumber" value="<?php echo $partNumber; ?>">
                 <input type="hidden" name="item_id" id="item_id" value="<?php echo $item_id; ?>">
                 <input type="hidden" name="stockOnHand" id="stockOnHand" value="<?php echo $stockOnHand; ?>">
-              </div>         
+              </div>
             </div>
           </div>
         </div>
@@ -167,13 +169,13 @@ if($_POST['history_id']) {
 
 <script>
     // $(document).ready(function() {
-    //   if($('#transferType_editHistory').val() != 'OUT') {
+    //   if($('#transferType').val() != 'OUT') {
     //         $('#forTransferTypeOut').fadeOut('fast');
     //         $('#customerName').val("N/A");
     //         $('#details').val("N/A");
     //   }
 
-    //     $('#transferType_editHistory').change(function(event) {
+    //     $('#transferType').change(function(event) {
     //         if($(this).val() == 'OUT') {
     //             $('#forTransferTypeOut').fadeIn('fast');
     //             $('#customerName').val("");

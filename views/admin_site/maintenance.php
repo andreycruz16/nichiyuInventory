@@ -36,7 +36,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" bgcolor="e5e5e5" width="10">ID</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;#</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;#/Model</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Description</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Department</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Actions</th>
@@ -132,6 +132,7 @@
                                             </div>
                                             <form action="phpScripts/dbRestore.php" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-body">
+                                                            <div>Make sure to <span class="text-danger"><b>CLEAR</b></span> the database before you <span class="text-success"><b>RESTORE</b></span>....</div>
                                                             <label>File to Restore from: </label><input type="file" name="file">
                                                 </div>
                                                 <div class="modal-footer">

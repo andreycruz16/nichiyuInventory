@@ -15,7 +15,7 @@
         $mysqli->select_db($name); 
         $mysqli->query("SET NAMES 'utf8'");
 
-        $queryTables    = $mysqli->query('SHOW TABLES'); 
+        $queryTables = $mysqli->query('SHOW TABLES'); 
         while($row = $queryTables->fetch_row()) 
         { 
             $target_tables[] = $row[0]; 
@@ -76,6 +76,7 @@
         header('Content-Type: application/octet-stream');   
         header("Content-Transfer-Encoding: Binary"); 
         header("Content-disposition: attachment; filename=\"".$backup_name."\"");  
+        echo "<script>alert('FILE UPLOADED SUCCESSFULLY.');</script>";
         echo $content; exit;
     }
  ?>

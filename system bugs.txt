@@ -30,9 +30,9 @@ more details on discrepancy (find where the discrepancy started)
 
 chage the cell parameter from 10 to 0 in date printed line
 
-recent transaction s limit 500 or 100?
+@@@@ recent transaction s limit 500 or 100?
 
-recent transactions column arrangements
+@@@@ recent transactions column arrangements
 
 admin recent transactions with department name column
 
@@ -50,6 +50,8 @@ some modals not working on ehost
 
 add the details tab on item transaction in guest and admin accounts
 
-color of row when 5=5 order point. it has low stock label but green row color
+@@@@ color of row when 5=5 order point. it has low stock label but green row color
 
 copy the sql for all items to all item count for equal count to avoid eror
+
+add details button on more details page on accounting site

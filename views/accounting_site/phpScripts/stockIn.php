@@ -40,7 +40,7 @@
         $quantity = mysqli_real_escape_string($conn, $quantity);
         $quantity = trim($quantity);
         $quantity = max($quantity, 0);
-        if ($quantity == 0) {
+        if ($quantity < 0) {
             echo "<script>alert('INVALID QUANTITY. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
             exit();
         }

@@ -2,9 +2,21 @@
 include('session.php');
 require_once('../../assets/tcpdf/tcpdf.php');
 
+$GLOBALS['grandTotal'] = 0;
+
 if($_GET['date']) {
     $date = $_GET['date'];
     $GLOBALS['date'] = $date;
+}
+
+if($_GET['dateFrom']) {
+    $dateFrom = $_GET['dateFrom'];
+    $GLOBALS['dateFrom'] = $dateFrom;
+}
+
+if($_GET['dateTo']) {
+    $dateTo = $_GET['dateTo'];
+    $GLOBALS['dateTo'] = $dateTo;
 }  
 
 // Extend the TCPDF class to create custom Header and Footer
@@ -21,9 +33,8 @@ class MYPDF extends TCPDF {
 
         $this->Ln();
         $this->SetFont('helvetica', 'R', 8);
-        $this->Cell(0, 0, '# 9M.FLORES ST. STO. ROSARIO SILANGAN, PATEROS M.M.', 0, 0, 'C');
+        $this->Cell(0, 0, '# 9M.FLORES ST. STO. ROSARIO SILANGAN, PATEROS M.M.', 0, 0.5, 'C');
 
-        $this->Ln();
         $this->Ln();
         $this->SetFont('helvetica', 'B', 10);
         $this->Cell(0, 0, 'LOW STOCKS', 0, 0, 'C');
@@ -34,9 +45,9 @@ class MYPDF extends TCPDF {
 
         $this->Ln();
         $this->SetFont('helvetica', 'R', 9);
-        $this->Cell(0, 0, 'As of '.date('F d, Y', strtotime($GLOBALS['date'])), 0, 0, 'C');
+        $this->Cell(0, 0, date('M d, Y', strtotime($GLOBALS['dateFrom'])) . ' - ' . date('M d, Y', strtotime($GLOBALS['dateTo'])), 0, 0, 'C');
 
-        $this->SetMargins(0, 39, 0);
+        $this->SetMargins(0, 40, 0);
     }
 
     // Page footer
@@ -100,30 +111,28 @@ $txt = '
 <table rules="all" border=".5" width="100%">
         <tr style="background-color:#555; color:#fff;">
             <th align="center" width="5%"><i>#</i></th>
-            <th align="center" width="35%">Part #</th>
-            <th align="center" width="35%"> Description</th>
-            <th align="center" width="12%"> Order Point</th>
-            <th align="center" width="10%"> Total Quantity</th>
+            <th align="center" width="30%"> Part Number / Model/Brand/Specification </th>
+            <th align="center" width="30%"> Description / Serial Number </th>
+            <th align="center" width="15%"> Order Point </th>
+            <th align="center" width="20%"> Stock On Hand </th>
         </tr>';
 require '../../database.php';
 $sql = "SELECT
-tbl_item_history.item_id,
-tbl_item.description,
-tbl_item.partNumber,
-SUM(tbl_item_history.quantity),
-tbl_item.minStockCount,
-tbl_item_history.history_id,
-tbl_item.boxNumber
-FROM
-tbl_item_history
-INNER JOIN
-tbl_item ON tbl_item.item_id = tbl_item_history.item_id
-WHERE
-tbl_item_history.dept_id = 3
-AND tbl_item.status = 0
-AND (tbl_item_history.date >= 0000-00-00 AND tbl_item_history.date <= '".$date."')
-GROUP BY
-tbl_item_history.item_id;";
+            tbl_item_history.item_id,
+            tbl_item.description,
+            tbl_item.partNumber,
+            SUM(tbl_item_history.quantity),
+            tbl_item.minStockCount,
+            tbl_item_history.history_id
+        FROM
+            tbl_item_history
+        INNER JOIN tbl_item ON tbl_item.item_id = tbl_item_history.item_id
+        WHERE i.userType_id = ".$_SESSION['userType_id']."
+            AND tbl_item.status = 0
+            AND tbl_item_history.quantity <= tbl_item.minStockCount AND tbl_item_history.quantity > 0
+            AND tbl_item_history.date >= 0000-00-00 AND tbl_item_history.date <= '".$date."'
+            GROUP BY tbl_item_history.item_id
+            ORDER BY tbl_item.partNumber ASC;";
 
  $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
@@ -134,8 +143,6 @@ tbl_item_history.item_id;";
                 $partNumber = $row[2];
                 $quantity = $row[3];
                 $minStockCount = $row[4];
-                $history_id = $row[5];
-                $boxNumber = $row[6];
 
                 if(!($quantity <= $minStockCount && $quantity >= 0)) { 
                     continue; 
@@ -145,8 +152,8 @@ $txt.='
             <td align="center" style="white-space:nowrap;">'. $ctr .'</td>
             <td align="" style="white-space:nowrap;"> '. $partNumber .'</td>
             <td align="" style="white-space:nowrap;"> '. $description .'</td>
-            <td align="center" style="white-space:nowrap;"> '. $minStockCount .'</td>
-            <td align="center" style="white-space:nowrap;"> '. $quantity .'</td>
+            <td align="center" style="white-space:nowrap;"> '. $minStockCount .' </td>
+            <td align="center" style="white-space:nowrap;"> '. $quantity .' </td>
         </tr>                                                                     
     ';
 
@@ -167,7 +174,7 @@ $pdf->writeHTML($txt, true, false, true, false, '');
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('ServiceReport_LowStocks_'.date('F-d-y', strtotime($GLOBALS['date'])).'.pdf', 'I');
+$pdf->Output('ServiceReport_OutOfStocks_'.date('F-d-y', strtotime($GLOBALS['date'])).'.pdf', 'I');
 
 //============================================================+
 // END OF FILE

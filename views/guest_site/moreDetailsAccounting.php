@@ -11,14 +11,16 @@
                 tbl_item.boxNumber,
                 tbl_item.minStockCount,
                 SUM(tbl_item_history.quantity),
-                tbl_item_history.dept_id,
-                tbl_item_history.history_id
+                tbl_item_history.userType_id,
+                tbl_item_history.history_id,
+                tbl_itemType.itemTypeName
                 FROM tbl_item_history
                 INNER JOIN tbl_item
                 ON tbl_item.item_id = tbl_item_history.item_id
-                WHERE tbl_item_history.dept_id = 4
+                INNER JOIN tbl_itemType
+                ON tbl_item.itemType_id = tbl_itemType.itemType_id
+                WHERE tbl_item_history.userType_id = ".$_SESSION['userType_accounting']." AND tbl_item.status = 0
                 AND tbl_item_history.item_id = ".$item_id."
-                AND tbl_item.status = 0
                 GROUP By tbl_item_history.item_id;";
 
         $result = mysqli_query($conn, $sql);
@@ -30,8 +32,9 @@
                     $boxNumber = $row[3];
                     $minStockCount = $row[4];
                     $quantity = $row[5];
-                    $dept_id = $row[6];
+                    $userType_id = $row[6];
                     $history_id = $row[7];
+                    $itemType = $row[8];
 
             }
         } else {
@@ -108,7 +111,7 @@
                 <span class="text-success">(Accounting) <?php echo strtoupper($description); ?></span>
             </h2>
             <ol class="breadcrumb">
-                <li><a href="index.php">All Records</a></li>
+                <li><a href="index.php">Dashboard</a></li>
                 <li class="active">Item Details</li>
             </ol>
         </div>
@@ -136,7 +139,6 @@
                                 <span class="input-group-addon" id="basic-addon1">Order Point:</span>
                                 <input type="text" name="minStockCount" id="minStockCount" class="form-control" value="<?php echo $minStockCount; ?>" aria-describedby="basic-addon1" disabled readonly required>
                             </div>
-                            <br>
                          </div>
                          <div class="col-md-6">
                             <div class="input-group">
@@ -145,32 +147,15 @@
                             </div>
                          </div>
                       </div>
-                  </div>
-                  <div class="col-md-2">
-                    <div class="form-group input-group col-md-12">
-                        <div class="text-center">
-                        <?php 
-                            //set it to writable location, a place for temp generated PNG files
-                            $PNG_TEMP_DIR = '../../assets/QrCodes/';
-                            $PNG_WEB_DIR = $PNG_TEMP_DIR;
+                      <div class="form-group input-group col-md-12">
 
-                            include "../../assets/phpqrcode/qrlib.php";
-                            
-                            if (!file_exists($PNG_TEMP_DIR))
-                                mkdir($PNG_TEMP_DIR);
-
-                            $qrValue = $partNumber;
-                            $filename = $PNG_TEMP_DIR.$qrValue.'.png';
-                            $errorCorrectionLevel = 'H';
-                            $matrixPointSize = 10;
-                            
-                            QRcode::png($qrValue, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
-                               
-                            //display generated file
-                            echo '<a href="'.$PNG_WEB_DIR.$qrValue.'.png" target="_blank"><img class="img-thumbnail" width="100px" height="100px" title="Right Click > Save image as.. > Save" src="'.$PNG_WEB_DIR.basename($filename).'" /></a>';  
-                         ?>                                              
-                        </div>                                    
-                    </div>                          
+                         <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">Item Type:</span>
+                                <input type="text" name="itemType" id="itemType" class="form-control" value="<?php echo $itemType; ?>" aria-describedby="basic-addon1" disabled readonly required>
+                            </div>
+                         </div>
+                      </div>
                   </div>
                 </div>
             </div>            
@@ -186,8 +171,7 @@
                                         <tr>
                                             <th class="text-center" bgcolor="#e5e5e5" width="15">ID</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Date&nbsp;(M/D/Y)</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Model</th>
-                                            <th class="text-center" bgcolor="#f2ba7f">Serial&nbsp;#</th>
+                                            <th class="text-center" bgcolor="#f2ba7f">Details</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Customer</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;Type</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Reference&nbsp;#</th>
@@ -197,7 +181,7 @@
                                             <th class="text-center" bgcolor="#f2ba7f">Quantity</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Total&nbsp;Cost</th>
                                             <th class="text-center" bgcolor="#f2ba7f">Stock&nbsp;On&nbsp;Hand</th>
-                                            <!-- <th class="text-center" bgcolor="#f2ba7f">Action</th> -->
+                                            <th class="text-center" bgcolor="#f2ba7f">Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -205,7 +189,6 @@
                                             <th class="text-center" bgcolor="#e5e5e5" width="15"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
-                                            <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th>
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
                                             <th class="text-center" bgcolor="#f2ba7f"></th> 
@@ -215,7 +198,7 @@
                                             <th class="text-center" bgcolor="#f2ba7f"></th>
                                             <th class="text-center" bgcolor="#f2ba7f"></th>
                                             <th class="text-center" bgcolor="#f2ba7f"></th>
-                                            <!-- <td class="text-center" bgcolor="#f2ba7f"></td>  -->
+                                            <td class="text-center" bgcolor="#f2ba7f"></td> 
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -230,15 +213,15 @@
                                                tbl_item_history.receivingReport, 
                                                tbl_item_history.transferType, 
                                                tbl_item_history.customerName, 
-                                               tbl_item_history.model, 
-                                               tbl_item_history.serialNumber, 
+                                               tbl_item_history.details, 
                                                tbl_item_history.quantity, 
                                                tbl_item_history.user_id, 
                                                tbl_item_history.unitCost 
                                                FROM tbl_item_history 
                                                INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
                                                WHERE item_id = ".$item_id." 
-                                               AND dept_id = 4
+                                               AND userType_id = ".$_SESSION['userType_accounting']."
+                                               AND tbl_reference.reference_id != 0
                                                ORDER BY tbl_item_history.history_id ASC;";
 
                                         $result = mysqli_query($conn, $sql);
@@ -254,18 +237,16 @@
                                             $receivingReport = $row[5];
                                             $transferType = $row[6];
                                             $customerName = $row[7];
-                                            $model = $row[8];
-                                            $serialNumber = $row[9];
-                                            $quantity = $row[10];
-                                            $user_id = $row[11];
-                                            $unitCost = $row[12];
+                                            $details = $row[8];
+                                            $quantity = $row[9];
+                                            $user_id = $row[10];
+                                            $unitCost = $row[11];
                                             $stockOnHand += $quantity;
                                     ?>
                                         <tr>
                                             <td class="text-center"><?php  echo $history_id ?></td>
                                             <td class="text-center"><?php echo date('m/d/Y', strtotime($date)); ?></td>
-                                            <td class="text-center"><?php echo $model; ?></td>
-                                            <td class="text-center"><?php echo $serialNumber; ?></td>
+                                            <td class="text-center"><?php echo $details; ?></td>
                                             <td class="text-center"><?php echo $customerName; ?></td>
                                             <td class="text-center"><?php echo $referenceType; ?></td>
                                             <td class="text-center"><?php echo $referenceNumber; ?></td>
@@ -275,7 +256,8 @@
                                             <td class="text-center"><?php echo $quantity; ?></td>
                                             <?php 
                                               if($transferType == 'OUT') {
-                                                $totalCost = 0;
+                                                $totalCost = ($quantity * $unitCost);
+                                                $totalCost = abs($totalCost);
                                               } else {
                                                 $totalCost = ($quantity * $unitCost);
                                               }
@@ -283,9 +265,9 @@
                                              ?>
                                             <td class="text-center">₱ <?php echo $totalCost; ?></td>
                                             <td class="text-center"><?php echo $stockOnHand; ?></td>
-                                            <!-- <td class="text-center" style="white-space:nowrap;">
-                                              <button type="button" class="btn btn-primary btn-xs" title="Details" data-toggle="modal" data-target="#historyDetails" data-id="<?php echo $history_id; ?>">Details <span class="glyphicon glyphicon-list-alt"></span></button>                                                      
-                                            </td> -->
+                                            <td class="text-center" style="white-space:nowrap;">
+                                              <button type="button" class="btn btn-primary btn-xs" title="Details" data-toggle="modal" data-target="#historyDetails" data-id="<?php echo $history_id; ?>">Details <span class="glyphicon glyphicon-list-alt"></span></button>
+                                            </td>
                                         </tr>
                                     <?php 
                                             }
@@ -313,28 +295,7 @@
                 </div> -->
             </div>
         </div>
-    </div>
-
-    <!-- STOCK IN MODAL -->                                                     
-    <div id="stockIn" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content text-center">
-                <div class="fetched-data-stockInModal"></div>
-<!--                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div> -->
-            </div>
-        </div>
-    </div>      
-
-    <!-- EDIT HISTORY DETAILS -->                                                     
-    <div id="editHistoryDetails" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="fetched-data-editHistoryDetailsModal"></div>
-            </div>
-        </div>
-    </div>        
+    </div>   
 
     <!-- HISTORY DETAILS -->                                                     
     <div id="historyDetails" class="modal fade" role="dialog">
@@ -344,78 +305,6 @@
             </div>
         </div>
     </div> 
-
-    <!-- DELETE HISTORY MODAL-->
-    <div id="historyDelete" class="modal fade" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content text-center">
-                <div class="modal-header modal-danger">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><strong>Delete Item?</strong></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-1"></div>                     
-                        <div class="col-sm-10">       
-                            <div class="fetched-data-historyDeleteModal"></div>        
-                        </div>
-                        <div class="col-sm-1"></div>                     
-                    </div>
-                </div>
-<!--                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
-                </div> -->
-            </div>
-        </div>
-    </div>    
-
-    <!-- DELETE ITEM MODAL-->
-    <div id="stockDelete" class="modal fade" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content text-center">
-                <div class="modal-header modal-danger">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><strong>Delete Item?</strong></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-1"></div>                     
-                        <div class="col-sm-10">       
-                            <div class="fetched-data-deleteStockModal"></div>        
-                        </div>
-                        <div class="col-sm-1"></div>                     
-                    </div>
-                </div>
-<!--                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
-                </div> -->
-            </div>
-        </div>
-    </div>   
-
-    <!-- EDIT ITEM MODAL-->
-    <div id="editItemDetails" class="modal fade" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header modal-danger">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><strong>Edit Item</strong></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-1"></div>                     
-                        <div class="col-sm-10">       
-                            <div class="fetched-data-editItemDetailsModal"></div>        
-                        </div>
-                        <div class="col-sm-1"></div>                     
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove-sign"></span> Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>      
 
     <?php include("includes/scripts.php") ?>
     <script>
@@ -446,22 +335,6 @@
                 } );           
             } );
 
-            $('.form_date').datetimepicker({
-                // language:  'fr',
-                format:'yyyy-mm-dd',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
-
-            if($('#transferType_id').val() == "IN") {
-              $('#forTransferTypeOut').remove();
-            }            
-
             // HISTORY DETAILS
             $(document).ready(function(){
                 $('#historyDetails').on('show.bs.modal', function (e) {
@@ -475,93 +348,7 @@
                         }
                     });
                  });
-            });
-
-          // EDIT HISTORY DETAILS
-          $(document).ready(function(){
-              $('#editHistoryDetails').on('show.bs.modal', function (e) {
-                  var history_id = $(e.relatedTarget).data('id');
-                  $.ajax({
-                      type : 'post',
-                      url : 'phpScripts/fetch_EditHistoryDetailsModal.php', //Here you will fetch records 
-                      data :  'history_id=' + history_id, //Pass $id
-                      success : function(data){
-                      $('.fetched-data-editHistoryDetailsModal').html(data);//Show fetched data from database
-                      }
-                  });
-               });
-          });
-
-        $(document).ready(function(){
-            $('#stockIn').on('show.bs.modal', function (e) {
-                var item_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'phpScripts/fetch_stockInModal.php', //Here you will fetch records 
-                    data :  'item_id=' + item_id, //Pass $id
-                    success : function(data){
-                    $('.fetched-data-stockInModal').html(data);//Show fetched data from database
-                    }
-                });
-             });
-        });
-
-        $(document).ready(function(){
-            $('#stockOut').on('show.bs.modal', function (e) {
-                var item_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'phpScripts/fetch_stockOutModal.php', //Here you will fetch records 
-                    data :  'item_id=' + item_id, //Pass $id
-                    success : function(data){
-                    $('.fetched-data-stockOutModal').html(data);//Show fetched data from database
-                    }
-                });
-             });
-        });
-
-
-        $(document).ready(function(){
-            $('#historyDelete').on('show.bs.modal', function (e) {
-                var history_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'phpScripts/fetch_deleteHistoryModal.php', //Here you will fetch records 
-                    data :  'history_id=' + history_id, //Pass $id
-                    success : function(data){
-                    $('.fetched-data-historyDeleteModal').html(data);//Show fetched data from database
-                    }
-                });
-             });
-        });
-
-        $(document).ready(function(){
-            $('#stockDelete').on('show.bs.modal', function (e) {
-                var item_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'phpScripts/fetch_deleteStockModal.php', //Here you will fetch records 
-                    data :  'item_id=' + item_id, //Pass $id
-                    success : function(data){
-                    $('.fetched-data-deleteStockModal').html(data);//Show fetched data from database
-                    }
-                });
-             });
-        });
-
-        $(document).ready(function(){
-            $('#editItemDetails').on('show.bs.modal', function (e) {
-                var item_id = $(e.relatedTarget).data('id');
-                $.ajax({
-                    type : 'post',
-                    url : 'phpScripts/fetch_editItemDetailsModal.php', //Here you will fetch records 
-                    data :  'item_id=' + item_id, //Pass $id
-                    success : function(data){
-                    $('.fetched-data-editItemDetailsModal').html(data);//Show fetched data from database
-                    }
-                });
-             });
-        });         
+            });      
 
     </script>
 </body>

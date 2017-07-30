@@ -57,7 +57,7 @@ $pdf = new MYPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('NICHIYU ASIALIFT');
-$pdf->SetTitle('AccountingReport_PhysicalCount_'.date('F-d-y', strtotime($GLOBALS['date'])));
+$pdf->SetTitle('TallyReport_'.date('F-d-y', strtotime($GLOBALS['date'])));
 // $pdf->SetSubject('TCPDF Tutorial');
 // $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 // set default header data
@@ -96,12 +96,12 @@ $txt = '
 <table rules="all" border=".5" width="100%">
         <tr style="background-color:#555; color:#fff;">
             <th align="center" width="5%">#</th>
-            <th align="center" width="17%">Part&nbsp;Number</th>
-            <th align="center" width="17%">Description</th>
+            <th align="center" width="18%">Part&nbsp;Numbe/r<br>Model/Brand/Specification</th>
+            <th align="center" width="20%">Description/<br>Serial&nbsp;Number</th>
             <th align="center" width="14%">Warehouse&nbsp;QTY</th>
             <th align="center" width="14%">Service&nbsp;QTY</th>
             <th align="center" width="14%">Accounting&nbsp;QTY</th>
-            <th align="center" width="17%">Status</th>
+            <th align="center" width="13%">Status</th>
         </tr>';
 require '../../database.php';
 $sql = "SELECT 
@@ -110,10 +110,10 @@ $sql = "SELECT
         tbl_item.partNumber,
         tbl_item.boxNumber,
         tbl_item.minStockCount,
-        SUM(CASE WHEN tbl_item.dept_id = 2 THEN tbl_item_history.quantity ELSE 0 END),
-        SUM(CASE WHEN tbl_item.dept_id = 3 THEN tbl_item_history.quantity ELSE 0 END),
-        SUM(CASE WHEN tbl_item.dept_id = 4 THEN tbl_item_history.quantity ELSE 0 END),
-        tbl_item_history.dept_id
+        SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_warehouse']." THEN tbl_item_history.quantity END),
+        SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_service']." THEN tbl_item_history.quantity END),
+        SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_accounting']." THEN tbl_item_history.quantity END),
+        tbl_item_history.userType_id
         FROM tbl_item_history
         INNER JOIN tbl_item
         ON tbl_item.item_id = tbl_item_history.item_id
@@ -133,6 +133,16 @@ $sql = "SELECT
                 $quantity1 = $row[5];
                 $quantity2 = $row[6];
                 $quantity3 = $row[7];
+
+                if($quantity1 == NULL) {
+                    $quantity1 = "-";
+                }
+                if ($quantity2 == NULL) {
+                    $quantity2 = "-";
+                } 
+                if ($quantity3 == NULL) {
+                    $quantity3 = "-";
+                }
 
                 $status = '';
                 $statusName = '';
@@ -172,7 +182,7 @@ $pdf->writeHTML($txt, true, false, true, false, '');
 // ---------------------------------------------------------
 
 //Close and output PDF document
-$pdf->Output('AccountingReport_PhysicalCount_'.date('F-d-y', strtotime($GLOBALS['date'])).'.pdf', 'I');
+$pdf->Output('TallyReport_'.date('F-d-y', strtotime($GLOBALS['date'])).'.pdf', 'I');
 
 //============================================================+
 // END OF FILE

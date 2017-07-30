@@ -47,7 +47,7 @@
                     <code class="text-success">Part Number: <?php echo $partNumber; ?></code>
                 </h2>
                 <ol class="breadcrumb">
-                    <li><a href="reports.php">Reports</a></li>
+                    <li class="active">Reports</li>
                     <li class="active">Generate</li>
                 </ol>
             </div>
@@ -57,7 +57,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Complete Report
+                                Complete Item Transaction Report
                             </div>
                             <div class="panel-body">
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-center">
@@ -70,7 +70,7 @@
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Custom Report
+                                Custom Item Transaction Report
                             </div>
                             <div class="panel-body">
                                 <div class="text-center">

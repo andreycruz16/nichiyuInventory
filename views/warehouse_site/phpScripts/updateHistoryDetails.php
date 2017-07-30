@@ -25,11 +25,7 @@
         $receivingReport = $_POST['receivingReport'];
         $receivingReport = mysqli_real_escape_string($conn, $receivingReport);
         $receivingReport = trim($receivingReport);
-
-        // $stockOnHand = $_POST['stockOnHand'];
-        // $stockOnHand = mysqli_real_escape_string($conn, $stockOnHand);
-        // $stockOnHand = trim($stockOnHand);
-
+        
         $transferType = $_POST['transferType'];
         $transferType = mysqli_real_escape_string($conn, $transferType);
         $transferType = trim($transferType);
@@ -50,7 +46,10 @@
             // }
 
             $quantity = -abs($quantity);
+        } else {
+            $quantity = abs($quantity);
         }
+
 
         $customerName = $_POST['customerName'];
         $customerName = mysqli_real_escape_string($conn, $customerName);

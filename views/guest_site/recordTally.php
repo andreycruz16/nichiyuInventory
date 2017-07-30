@@ -35,9 +35,9 @@
                                     require '../../database.php';
                                     $sql = "
                                             SELECT 
-                                                SUM(CASE WHEN tbl_item.dept_id = 2 THEN tbl_item_history.quantity ELSE 0 END),
-                                                SUM(CASE WHEN tbl_item.dept_id = 3 THEN tbl_item_history.quantity ELSE 0 END),
-                                                SUM(CASE WHEN tbl_item.dept_id = 4 THEN tbl_item_history.quantity ELSE 0 END)
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_warehouse']." THEN tbl_item_history.quantity END),
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_service']." THEN tbl_item_history.quantity END),
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_accounting']." THEN tbl_item_history.quantity END)
                                             FROM tbl_item_history
                                             INNER JOIN tbl_item
                                             ON tbl_item.item_id = tbl_item_history.item_id
@@ -77,9 +77,9 @@
                                     require '../../database.php';
                                     $sql = "
                                             SELECT 
-                                                SUM(CASE WHEN tbl_item.dept_id = 2 THEN tbl_item_history.quantity ELSE 0 END),
-                                                SUM(CASE WHEN tbl_item.dept_id = 3 THEN tbl_item_history.quantity ELSE 0 END),
-                                                SUM(CASE WHEN tbl_item.dept_id = 4 THEN tbl_item_history.quantity ELSE 0 END)
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_warehouse']." THEN tbl_item_history.quantity END),
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_service']." THEN tbl_item_history.quantity END),
+                                                SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_accounting']." THEN tbl_item_history.quantity END)
                                             FROM tbl_item_history
                                             INNER JOIN tbl_item
                                             ON tbl_item.item_id = tbl_item_history.item_id
@@ -124,11 +124,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">#</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;Number</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Description</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Warehouse&nbsp;QTY</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Service&nbsp;QTY</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Accounting&nbsp;QTY</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="200">Part&nbsp;Number/<br>Model/Brand/Specification</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Description/<br>Serial&nbsp;Number</th>
+                                                <th class="text-center" bgcolor="#1b89ae" style="color: white;" width="">Warehouse&nbsp;QTY</th>
+                                                <th class="text-center" bgcolor="#569a38" style="color: white;" width="">Service&nbsp;QTY</th>
+                                                <th class="text-center" bgcolor="#8c579b" style="color: white;" width="">Accounting&nbsp;QTY</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Status</th>
                                             </tr>
                                         </thead>
@@ -137,9 +137,9 @@
                                                 <th bgcolor="f2ba7f" width="">&nbsp;</th>
                                                 <th bgcolor="f2ba7f" width="">&nbsp;</th>
                                                 <th bgcolor="f2ba7f" width="">&nbsp;</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <td class="text-center" bgcolor="#1b89ae" style="color: white;" width="">&nbsp;</td>
+                                                <td class="text-center" bgcolor="#569a38" style="color: white;" width="">&nbsp;</td>
+                                                <td class="text-center" bgcolor="#8c579b" style="color: white;" width="">&nbsp;</td>
                                                 <td bgcolor="f2ba7f" width="">&nbsp;</td>
                                             </tr>
                                         </tfoot>
@@ -153,10 +153,10 @@
                                                     tbl_item.partNumber,
                                                     tbl_item.boxNumber,
                                                     tbl_item.minStockCount,
-                                                    SUM(CASE WHEN tbl_item.dept_id = 2 THEN tbl_item_history.quantity ELSE 0 END),
-                                                    SUM(CASE WHEN tbl_item.dept_id = 3 THEN tbl_item_history.quantity ELSE 0 END),
-                                                    SUM(CASE WHEN tbl_item.dept_id = 4 THEN tbl_item_history.quantity ELSE 0 END),
-                                                    tbl_item_history.dept_id
+                                                    SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_warehouse']." THEN tbl_item_history.quantity END),
+                                                    SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_service']." THEN tbl_item_history.quantity END),
+                                                    SUM(CASE WHEN tbl_item.userType_id = ".$_SESSION['userType_accounting']." THEN tbl_item_history.quantity END),
+                                                    tbl_item_history.userType_id
                                                     FROM tbl_item_history
                                                     INNER JOIN tbl_item
                                                     ON tbl_item.item_id = tbl_item_history.item_id
@@ -175,6 +175,16 @@
                                                     $quantity1 = $row[5];
                                                     $quantity2 = $row[6];
                                                     $quantity3 = $row[7];
+
+                                                    if($quantity1 == NULL) {
+                                                        $quantity1 = "-";
+                                                    }
+                                                    if ($quantity2 == NULL) {
+                                                        $quantity2 = "-";
+                                                    } 
+                                                    if ($quantity3 == NULL) {
+                                                        $quantity3 = "-";
+                                                    }
                                         ?>
                                             <tr class="<?php if($quantity1 != $quantity2 || $quantity1 != $quantity3) echo "danger"; else if($quantity1 == $quantity2 || $quantity1 == $quantity3) echo "success";?>">
                                                 <td class="text-center"><?php  echo $cnt; ?></td>
@@ -187,10 +197,10 @@
                                                             FROM tbl_item_history
                                                             INNER JOIN tbl_item
                                                             ON tbl_item.item_id = tbl_item_history.item_id
-                                                            WHERE tbl_item_history.dept_id = 2 AND tbl_item.status = 0 AND warehouseQTY = ".$quantity1."
+                                                            WHERE tbl_item_history.userType_id = ".$_SESSION['userType_warehouse']." AND tbl_item.status = 0 AND warehouseQTY = ".$quantity1."
                                                             GROUP By tbl_item_history.item_id;";
                                                  ?> -->
-                                                <td class="text-center"><strong><?php  echo $quantity1; ?></strong></a></td>
+                                                <td class="text-center"><strong><?php  echo $quantity1; ?></strong></td>
                                                 <!-- <td class="text-center"><a href="" style="color: black" title="View Item"><strong><?php  echo $quantity1; ?></strong></a></td> -->
                                                 <td class="text-center"><strong><?php  echo $quantity2; ?></strong></td>
                                                 <td class="text-center"><strong><?php  echo $quantity3; ?></strong></td>

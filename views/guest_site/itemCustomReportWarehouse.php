@@ -150,6 +150,7 @@ $sql = "SELECT
         INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
         WHERE item_id = ".$item_id." 
         AND dept_id = 2
+        AND tbl_reference.reference_id != 0
         AND (tbl_item_history.date >= '".$dateFrom."' AND tbl_item_history.date <= '".$dateTo."')
         ORDER BY tbl_item_history.history_id ASC;";        
 

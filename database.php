@@ -1,5 +1,5 @@
 <?php 
-	error_reporting(0); //Turn off php error reporting (use this for deployment)
+	error_reporting(1); //Turn off php error reporting (use this for deployment)
 	date_default_timezone_set('Asia/Manila');
 	$server_name   = "localhost";
 	$username      = "root";

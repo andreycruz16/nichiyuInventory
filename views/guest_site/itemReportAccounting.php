@@ -145,6 +145,7 @@ $sql = "SELECT
        INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
        WHERE item_id = ".$item_id." 
        AND dept_id = 4
+       AND tbl_reference.reference_id != 0
        ORDER BY tbl_item_history.history_id ASC;";
 
         $result = mysqli_query($conn, $sql);

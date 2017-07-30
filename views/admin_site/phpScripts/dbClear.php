@@ -10,9 +10,11 @@
 		$result = mysqli_query($conn, $sql);
 		if (mysqli_num_rows($result) > 0) {
 			// Truncate Tables
-			$sql = "DROP DATABASE ".$database_name.";";        
+			$sql = "TRUNCATE tbl_activity_logs;";
 			mysqli_query($conn, $sql);
-			$sql = "CREATE DATABASE ".$database_name.";";
+			$sql = "TRUNCATE tbl_item;";
+			mysqli_query($conn, $sql);
+			$sql = "TRUNCATE tbl_item_history;";
 			mysqli_query($conn, $sql);
 
 			$sql = "INSERT INTO tbl_activity_logs VALUES(NULL,
@@ -22,7 +24,7 @@
 	                            'User has cleared the database.'
 	                            );";    
 			mysqli_query($conn, $sql);
-			echo "<script>alert('DATABASE RECORDS SUCCESSFULLY CLEARED. '); window.location.href = '../maintenance.php'</script>";
+			echo "<script>alert('DATABASE RECORDS SUCCESSFULLY CLEARED. '); window.location.href = '../index.php'</script>";
 		} else {
 	  		echo "<script>alert('INCORRECT PASSWORD. TRY AGAIN.'); window.location.href = '../maintenance.php'</script>";
 		}		

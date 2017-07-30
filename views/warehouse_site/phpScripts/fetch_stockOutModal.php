@@ -1,6 +1,6 @@
 <?php
-//Include database connection
 session_start();
+//Include database connection
 require '../../../database.php';
 if($_POST['item_id']) {
     $item_id = $_POST['item_id']; //escape string
@@ -12,11 +12,11 @@ if($_POST['item_id']) {
             tbl_item.boxNumber,
             tbl_item.minStockCount,
             SUM(tbl_item_history.quantity),
-            tbl_item_history.dept_id
+            tbl_item_history.userType_id
             FROM tbl_item_history
             INNER JOIN tbl_item
             ON tbl_item.item_id = tbl_item_history.item_id
-            WHERE tbl_item_history.dept_id = 2
+            WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']."
             AND tbl_item.status = 0
             AND tbl_item_history.item_id = ".$item_id."
             GROUP By tbl_item_history.item_id;";
@@ -30,10 +30,9 @@ if($_POST['item_id']) {
             $boxNumber = $row[3];
             $minStockCount = $row[4];
             $quantity = $row[5];
-            $dept_id = $row[6];
+            $userType_id = $row[6];
 		}
 	}
-    // Echo the data you want to show in modal
  } else {
     header("Location: ../index.php"); // Redirecting to All Records Page
  }

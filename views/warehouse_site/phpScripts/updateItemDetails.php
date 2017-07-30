@@ -24,13 +24,18 @@
 		$boxNumber = mysqli_real_escape_string($conn, $boxNumber);
 		$boxNumber = trim($boxNumber);	
 
+		$itemType_id = $_POST['itemType_id'];
+        $itemType_id = mysqli_real_escape_string($conn, $itemType_id);
+        $itemType_id = trim($itemType_id); 
+
 		$sql = "UPDATE
 				  tbl_item
 				SET
 				  tbl_item.partNumber = '".$partNumber."',
 				  tbl_item.description = '".$description."',
 				  tbl_item.minStockCount = ".$minStockCount.",
-				  tbl_item.boxNumber = ".$boxNumber."
+				  tbl_item.boxNumber = ".$boxNumber.",
+				  tbl_item.itemType_id = '".$itemType_id."'
 				WHERE
 				  tbl_item.item_id = ".$item_id.";";
 

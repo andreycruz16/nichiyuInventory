@@ -19,7 +19,7 @@
 			                                           now(),
 			                                           7,
 			                                           'Changed Display Picture'
-			                                           );";  /*5 is maintenance activity type*/
+			                                           );"; 
 			  mysqli_query($conn, $sql);
 			  $_SESSION['displayPicture'] = basename($_FILES['userPicture']['name']);
 			  // echo "<script>alert('DISPLAY PICTURE CHANGED SUCCESSFULLY.'); window.location.href = '../accountSettings.php'</script>";

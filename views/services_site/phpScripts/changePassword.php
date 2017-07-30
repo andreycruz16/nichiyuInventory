@@ -28,7 +28,7 @@
                     $sql = "INSERT INTO tbl_activity_logs VALUES(NULL,
                                                              '".$_SESSION['user_id']."',
                                                              now(),
-                                                             5,
+                                                             7,
                                                              'Password Changed'
                                                              );";  /*5 is accountSettings activity type*/
                     mysqli_query($conn, $sql);

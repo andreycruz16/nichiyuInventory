@@ -28,10 +28,10 @@
 		<div id="page-wrapper">
             <div class="header"> 
                 <h2 class="page-header">
-                    <code class="text-success">RECENT TRANSACTIONS</code>
+                    <code class="text-success">TRANSACTION LOGS</code>
                 </h2>
                 <ol class="breadcrumb">
-                    <li class="active">Recent Stock Logs</li>
+                    <li class="active">Transaction Logs</li>
                 </ol>
             </div>
             <div id="page-inner">
@@ -40,7 +40,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Recent Stock Logs
+                                Recent Stock Logs <br>Limit: 250 rows
                             </div>
                             <div class="panel-body">
                                     <div class="table-responsive">
@@ -50,10 +50,10 @@
                                                     <th class="text-center" bgcolor="#e5e5e5" width="">ID</th>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="155">TIMESTAMP</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Date&nbsp;(M/D/Y)</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Stock&nbsp;Name</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Stock&nbsp;Details</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Document&nbsp;Type</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th> -->
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="5">Transfer&nbsp;Type</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -65,10 +65,10 @@
                                                     <th class="text-center" bgcolor="#e5e5e5" width="">ID</th>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="155">TIMESTAMP</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Date&nbsp;(M/D/Y)</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Stock&nbsp;Name</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Stock&nbsp;Details</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Document&nbsp;Type</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th> -->
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Transfer&nbsp;Type</th>
                                                     <!-- <th bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -94,10 +94,10 @@
                                                        INNER JOIN tbl_reference ON tbl_item_history.reference_id = tbl_reference.reference_id
                                                        INNER JOIN tbl_users ON tbl_item_history.user_id = tbl_users.user_id
                                                        INNER JOIN tbl_item ON tbl_item.item_id = tbl_item_history.item_id
-                                                       WHERE tbl_item_history.dept_id = 3 
+                                                       WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']." 
                                                        AND tbl_item.status = 0
                                                        AND tbl_reference.reference_id != 0
-                                                       ORDER BY tbl_item_history.history_id DESC;";   
+                                                       ORDER BY tbl_item_history.history_id DESC LIMIT 250;";   
                                                 // echo $sql;
                                                 $result = mysqli_query($conn, $sql);
                                                 if (mysqli_num_rows($result) > 0) {
@@ -118,10 +118,10 @@
                                                     <td class="text-center"><?php echo $history_id; ?></td>
                                                     <td class="text-center" title="<?php  echo date('h:i:s A', strtotime($timestamp)); ?>"><?php  echo date('m/d/Y | h:i:s A', strtotime($timestamp)); ?></td>
                                                     <td class="text-center"><?php echo date('m/d/Y', strtotime($date)); ?></td>
+                                                    <td class="text-center"><?php echo $partNumber; ?></td>
                                                     <td class="text-center"><?php echo $description; ?></td>
                                                     <td class="text-center"><?php echo $referenceType; ?></td>
-                                                    <td class="text-center"><?php echo $referenceNumber; ?></td>
-                                                    <td class="text-center"><?php echo $partNumber; ?></td>
+                                                    <!-- <td class="text-center"><?php echo $referenceNumber; ?></td> -->
                                                     <td class="text-center"><?php echo $quantity; ?></td>
                                                     <td class="text-center"><?php echo $transferType; ?></td>
                                                     <!-- <td class="text-center"><?php echo $firstName . ' ' . $lastName; ?></td> -->

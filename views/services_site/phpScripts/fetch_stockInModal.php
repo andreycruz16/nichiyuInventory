@@ -12,12 +12,11 @@ if($_POST['item_id']) {
             tbl_item.boxNumber,
             tbl_item.minStockCount,
             SUM(tbl_item_history.quantity),
-            tbl_item_history.dept_id
+            tbl_item_history.userType_id
             FROM tbl_item_history
             INNER JOIN tbl_item
             ON tbl_item.item_id = tbl_item_history.item_id
-            WHERE tbl_item_history.dept_id = 3
-            AND tbl_item.status = 0
+            WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']."
             AND tbl_item_history.item_id = ".$item_id."
             GROUP By tbl_item_history.item_id;";
     $result = mysqli_query($conn, $sql);
@@ -30,7 +29,7 @@ if($_POST['item_id']) {
             $boxNumber = $row[3];
             $minStockCount = $row[4];
             $quantity = $row[5];
-            $dept_id = $row[6];
+            $userType_id = $row[6];
 		}
 	}
     // Echo the data you want to show in modal
@@ -47,10 +46,6 @@ if($_POST['item_id']) {
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">               
-            <!-- <div class="form-group"> -->
-                <!-- <label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label><strong>Required</strong> -->
-                <!-- <label class="text-primary"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label><strong>Optional</strong> -->
-            <!-- </div> -->
             <form role="form" class="form-horizontal" action="phpScripts/stockIn.php" method="post">  
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Date:</span>
@@ -62,7 +57,7 @@ if($_POST['item_id']) {
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Reference:</span>
                     <select class="form-control" name="reference_id" id="reference_id_in" required>
-                        <option value="" selected disabled>Document Type</option>
+                        <option value="0" selected disabled>Document Type</option>
                         <?php 
                             $sql = "SELECT * FROM tbl_reference WHERE reference_id != 0 AND inOrOut = 1 OR inOrOut = -1;";
 
@@ -79,10 +74,10 @@ if($_POST['item_id']) {
                                 }
                             }
                             mysqli_close($conn);
-                        ?>                        
+                        ?>                         
                     </select>
-                    <input type="text" name="referenceNumber" class="form-control" id="referenceNumber_in" placeholder="Reference Number" aria-describedby="basic-addon1" required autocomplete="on">
-                    <input type="text" name="receivingReport" class="form-control" id="receivingReport_in" placeholder="Receiving Report" aria-describedby="basic-addon1" autocomplete="on">
+                    <input type="text" name="referenceNumber" class="form-control" id="referenceNumber_in" placeholder="Reference Number" aria-describedby="basic-addon1" required autocomplete="off">
+                    <input type="text" name="receivingReport" class="form-control" id="receivingReport_in" placeholder="Receiving Report" aria-describedby="basic-addon1" autocomplete="off">
                 </div>
                 <br>
                 <div class="input-group col-md-12">
@@ -93,7 +88,7 @@ if($_POST['item_id']) {
                 <div class="input-group col-md-12">
                     <span class="input-group-addon" id="basic-addon1"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> Unit Cost:</span>
                     <span class="input-group-addon" id="basic-addon1">₱</span>
-                    <input type="number" min="0" name="unitCost" class="form-control" id="unitCost" placeholder="0.00" step="0.01" aria-describedby="basic-addon1" required autocomplete="off">
+                    <input type="number" min="0" name="unitCost" class="form-control" id="unitCost" value="" placeholder="0.00" step="0.01" aria-describedby="basic-addon1" required autocomplete="off">
                 </div>
                 <br>
                 <h5><strong>Current Quantity: <span class="text-success"><?php echo $quantity; ?></span></strong></h5>
@@ -110,7 +105,7 @@ if($_POST['item_id']) {
                 <br>
             </form>   
         </div>  
-        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>        
     </div>
 </div>
 

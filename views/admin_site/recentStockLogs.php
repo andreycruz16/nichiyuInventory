@@ -61,7 +61,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="5">Transfer&nbsp;Type</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -76,7 +76,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Transfer&nbsp;Type</th>
                                                     <!-- <th bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -161,7 +161,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="5">Transfer&nbsp;Type</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->
@@ -176,7 +176,7 @@
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;Type</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Reference&nbsp;#</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Transfer&nbsp;Type</th>
                                                     <!-- <th bgcolor="#f2ba7f" width="5">Update&nbsp;By</th> -->

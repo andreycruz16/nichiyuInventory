@@ -8,7 +8,7 @@
             FROM tbl_item_history
             INNER JOIN tbl_item
             ON tbl_item.item_id = tbl_item_history.item_id
-            WHERE tbl_item_history.dept_id = 3
+            WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']."
             AND tbl_item.status = 0
             GROUP By tbl_item_history.item_id;";
 
@@ -84,49 +84,49 @@
             </div>            
             <div id="page-inner">
                 <div class="row">
-                        <!-- RECORDS COUNT BOX     -->
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            <div class="panel panel-primary text-center no-boder blue">
-                                <div class="panel-right">
-                                    <?php 
-                                        require '../../database.php';
-                                        $sql = "SELECT COUNT(*) FROM tbl_item WHERE tbl_item.status = 0 AND tbl_item.dept_id = 3;";
-                                        $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
-                                    ?>
-                                    <h3><?php echo $row[0]; mysqli_close($conn); ?></h3>
-                                   <div align="left" style="font-size:15px"><strong> <a href="index.php" id="noFilter" style="color:white">Total # of Items</a></strong></div><br>
-                                </div>
+                    <!-- RECORDS COUNT BOX -->
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-right">
+                                <?php 
+                                    require '../../database.php';
+                                    $sql = "SELECT COUNT(*) FROM tbl_item WHERE tbl_item.status = 0  AND tbl_item.userType_id = ".$_SESSION['userType_id'].";";
+                                    $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
+                                ?>
+                                <h3><?php echo $row[0]; mysqli_close($conn); ?></h3>
+                               <div align="left" style="font-size:15px"><strong>Total # of Items</strong></div><br>
                             </div>
                         </div>
-                       <!-- LOW STOCKS     -->
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            <div class="panel panel-primary text-center no-boder <?php if($GLOBALS['lowStocks'] > 0) echo "brown"; else echo "blue"; ?>">
-                                <div class="panel-right">
-                                    <h3><?php echo $GLOBALS['lowStocks']; ?></h3>
-                                   <div align="left" style="font-size:15px"><strong> <a href="#" id="lowStocksFilter" style="color:white">Total # of Low Stocks</a></strong></div><br>
-                                </div>
+                    </div>
+                   <!-- LOW STOCKS -->
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="panel panel-primary text-center no-boder <?php if($GLOBALS['lowStocks'] > 0) echo "brown"; else echo "blue"; ?>">
+                            <div class="panel-right">
+                                <h3><?php echo $GLOBALS['lowStocks']; ?></h3>
+                               <div align="left" style="font-size:15px"><strong>Total # of Low Stocks</strong></div><br>
                             </div>
                         </div>
-                        <!-- OUT OF STOCKS     -->
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            <div class="panel panel-primary text-center no-boder <?php if($GLOBALS['outOfStocks'] > 0) echo "red"; else echo "blue"; ?>">
+                    </div>
+                    <!-- OUT OF STOCKS -->
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="panel panel-primary text-center no-boder <?php if($GLOBALS['outOfStocks'] > 0) echo "red"; else echo "blue"; ?>">
+                            <div class="panel-right">
+                                <h3><?php echo $GLOBALS['outOfStocks']; ?></h3>
+                               <div align="left" style="font-size:15px"><strong>Total # of Out of Stocks</strong></div><br>
+                            </div>
+                        </div>
+                    </div>                    
+                    <!-- SERVER DATE & TIME BOX -->
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="panel panel-primary text-center no-boder blue">
                                 <div class="panel-right">
-                                    <h3><?php echo $GLOBALS['outOfStocks']; ?></h3>
-                                   <div align="left" style="font-size:15px"><strong> <a href="#" id="outOfStocksFilter" style="color:white">Total # of Out of Stock</a></strong></div><br>
+                                    <br>
+                                    <div align="left" style="font-size:18px"><?php  echo date("h:i A"); ?></div>
+                                    <div align="left" style="font-size:18px"><?php  echo date("F d, Y | l"); ?></div>
+                                    <div align="left" style="font-size:15px"><strong> Server Date & Time</strong></div><br>
                                 </div>
-                            </div>
-                        </div>                    
-                        <!-- SERVER DATE & TIME BOX -->
-                        <div class="col-md-3 col-sm-3 col-xs-3">
-                            <div class="panel panel-primary text-center no-boder blue">
-                                    <div class="panel-right">
-                                        <br>
-                                        <div align="left" style="font-size:18px"><?php  echo date("h:i A"); ?></div>
-                                        <div align="left" style="font-size:18px"><?php  echo date("F d, Y | l"); ?></div>
-                                        <div align="left" style="font-size:15px"><strong> Server Date & Time</strong></div><br>
-                                    </div>
-                            </div>
-                        </div>                    
+                        </div>
+                    </div>                    
                 </div>  
                 <div class="row">
                     <!-- CURRENT STOCK RECORDS (A-Z) -->
@@ -137,29 +137,42 @@
                                   <span class="glyphicon glyphicon-plus"></span> Add New Item
                                 </button>
                                 &nbsp;All Items (Newest - Oldest)
-                                <button class="btn btn-default btn-sm pull-right" id="lowStocksFilterBtn">
-                                  Low stocks
-                                </button>
-                                <button class="btn btn-default btn-sm pull-right" id="outOfStocksFilterBtn">
-                                  Out of stocks
-                                </button>
-                                <button class="btn btn-default btn-sm pull-right" id="noFilterBtn">
-                                  No filter
-                                </button>
                             </div> 
                             <div class="panel-body">
+                            <p>
+                                <b>NICHIYU PARTS</b> (
+                                <?php 
+                                    require '../../database.php';
+                                    $sql = "SELECT * FROM tbl_itemType WHERE partOrUnit = 0;";
+
+                                    $result = mysqli_query($conn, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                            $itemType_id = $row[0];
+                                            $itemTypeName = $row[1];
+                                            $partOrUnit = $row[2];
+                                            echo $itemTypeName;
+                                            echo ", ";
+                                        }
+                                    }
+                                    mysqli_close($conn);
+                                ?>   
+                                )
+                            </p>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-condensed table-hover" width="100%" id="recordsTable">
+                                    <table class="table table-striped table-bordered table-condensed table-hover" id="recordsTable">
                                         <thead>
                                             <tr>
                                                 <th class="text-center" bgcolor="e5e5e5" width="10">ID</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;#</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Part&nbsp;Number</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Description</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Item&nbsp;Type</th>
                                                 <!-- <th class="text-center" bgcolor="f2ba7f" width="">Box&nbsp;#</th> -->
-                                                <th class="text-center" bgcolor="f2ba7f" width="">Minimum&nbsp;Stock&nbsp;Count</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Order&nbsp;Point</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">Stock&nbsp;On&nbsp;Hand</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Unit&nbsp;Cost</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Status</th>
-                                                <th class="text-center" bgcolor="f2ba7f" width="10">Transactions</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Transtactions</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="10">Actions</th>
                                             </tr>
                                         </thead>
@@ -168,9 +181,11 @@
                                                 <th class="text-center" bgcolor="e5e5e5" width="">&nbsp;</th>
                                                 <th bgcolor="f2ba7f" width="">&nbsp;</th>
                                                 <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
                                                 <!-- <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th> -->
                                                 <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
                                                 <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
                                                 <td bgcolor="f2ba7f" width="">&nbsp;</td>
                                                 <td bgcolor="f2ba7f" width="">&nbsp;</td>
                                                 <td bgcolor="f2ba7f" width="">&nbsp;</td>
@@ -187,11 +202,15 @@
                                                     tbl_item.boxNumber,
                                                     tbl_item.minStockCount,
                                                     SUM(tbl_item_history.quantity),
-                                                    tbl_item_history.dept_id
+                                                    tbl_item_history.userType_id,
+                                                    tbl_itemType.itemTypeName
                                                     FROM tbl_item_history
                                                     INNER JOIN tbl_item
                                                     ON tbl_item.item_id = tbl_item_history.item_id
-                                                    WHERE tbl_item_history.dept_id = 3 AND tbl_item.status = 0
+                                                    INNER JOIN tbl_itemType
+                                                    ON tbl_item.itemType_id = tbl_itemType.itemType_id
+                                                    WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']." AND tbl_item.status = 0
+                                                    AND tbl_itemType.partOrUnit = 0
                                                     GROUP By tbl_item_history.item_id;";
 
                                             $result = mysqli_query($conn, $sql);
@@ -203,17 +222,27 @@
                                                     $boxNumber = $row[3];
                                                     $minStockCount = $row[4];
                                                     $quantity = $row[5];
+                                                    $itemType = $row[7];
 
-                                                    
+                                                    $sqlCost = "SELECT unitCost FROM tbl_item_history WHERE history_id=(SELECT max(history_id) FROM tbl_item_history WHERE item_id = ".$item_id." AND userType_id = ".$_SESSION['userType_id'].")";
+
+                                                    $resultCost = mysqli_query($conn, $sqlCost);
+                                                    $rowCost = mysqli_fetch_array($resultCost, MYSQL_NUM);
+                                                    $unitCost = $rowCost[0];
+
                                         ?>
-                                            <tr class="<?php if($quantity < $minStockCount AND $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>">
+                                            <tr class="<?php if($quantity <= $minStockCount AND $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>">
                                                 <td class="text-center"><?php  echo $item_id; ?></td>
                                                 <td><?php  echo $partNumber; ?></td>
                                                 <td><?php  echo $description; ?></td>
+                                                <td class="text-center"><?php  echo $itemType; ?></td>
                                                 <!-- <td class="text-center"><?php  echo $boxNumber; ?></td> -->
                                                 <td class="text-center"><?php  echo $minStockCount; ?></td>
                                                 <td class="text-center">                                                    
                                                     <strong><?php echo $quantity; ?></strong>
+                                                </td>
+                                                <td class="text-center" >
+                                                    ₱&nbsp;<?php echo $unitCost; ?>
                                                 </td>
                                                 <td class="text-center" >
                                                     <span class="label label-<?php if($quantity <= $minStockCount && $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>"><?php if($quantity <= $minStockCount && $quantity > 0) echo "Low Stock"; else if($quantity == 0) echo "Out Of Stock"; else echo "Available";?></span>
@@ -235,7 +264,134 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>                          
+                            </div>
+                             <div class="panel-body">
+                             <p>
+                                <b>NICHIYU UNITS</b> (
+                                <?php 
+                                    require '../../database.php';
+                                    $sql = "SELECT * FROM tbl_itemType WHERE partOrUnit = 1;";
+
+                                    $result = mysqli_query($conn, $sql);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                            $itemType_id = $row[0];
+                                            $itemTypeName = $row[1];
+                                            $partOrUnit = $row[2];
+                                            echo $itemTypeName;
+                                            echo ", ";
+                                        }
+                                    }
+                                    mysqli_close($conn);
+                                ?>   
+                                )
+                            </p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-condensed table-hover" id="recordsTableUnits">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" bgcolor="e5e5e5" width="10">ID</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Model/Brand/Specification</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Serial&nbsp;Number</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Item&nbsp;Type</th>
+                                                <!-- <th class="text-center" bgcolor="f2ba7f" width="">Box&nbsp;#</th> -->
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Order&nbsp;Point</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">Stock&nbsp;On&nbsp;Hand</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Unit&nbsp;Cost</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Status</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Transtactions</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="10">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-center" bgcolor="e5e5e5" width="">&nbsp;</th>
+                                                <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <!-- <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th> -->
+                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <th class="text-center" bgcolor="f2ba7f" width="">&nbsp;</th>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
+                                                <td bgcolor="f2ba7f" width="">&nbsp;</td>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        <?php 
+                                            require '../../database.php';
+
+                                            $sql = "SELECT 
+                                                    tbl_item_history.item_id,
+                                                    tbl_item.description,
+                                                    tbl_item.partNumber,
+                                                    tbl_item.boxNumber,
+                                                    tbl_item.minStockCount,
+                                                    SUM(tbl_item_history.quantity),
+                                                    tbl_item_history.userType_id,
+                                                    tbl_itemType.itemTypeName
+                                                    FROM tbl_item_history
+                                                    INNER JOIN tbl_item
+                                                    ON tbl_item.item_id = tbl_item_history.item_id
+                                                    INNER JOIN tbl_itemType
+                                                    ON tbl_item.itemType_id = tbl_itemType.itemType_id
+                                                    WHERE tbl_item_history.userType_id = ".$_SESSION['userType_id']." AND tbl_item.status = 0
+                                                    AND tbl_itemType.partOrUnit = 1
+                                                    GROUP By tbl_item_history.item_id;";
+
+                                            $result = mysqli_query($conn, $sql);
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                                    $item_id = $row[0];
+                                                    $description = $row[1];
+                                                    $partNumber = $row[2];
+                                                    $boxNumber = $row[3];
+                                                    $minStockCount = $row[4];
+                                                    $quantity = $row[5];
+                                                    $itemType = $row[7];
+
+                                                    $sqlCost = "SELECT unitCost FROM tbl_item_history WHERE history_id=(SELECT max(history_id) FROM tbl_item_history WHERE item_id = ".$item_id." AND userType_id = ".$_SESSION['userType_id'].")";
+
+                                                    $resultCost = mysqli_query($conn, $sqlCost);
+                                                    $rowCost = mysqli_fetch_array($resultCost, MYSQL_NUM);
+                                                    $unitCost = $rowCost[0];
+
+                                        ?>
+                                            <tr class="<?php if($quantity < $minStockCount AND $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>">
+                                                <td class="text-center"><?php  echo $item_id; ?></td>
+                                                <td><?php  echo $partNumber; ?></td>
+                                                <td><?php  echo $description; ?></td>
+                                                <td class="text-center"><?php  echo $itemType; ?></td>
+                                                <!-- <td class="text-center"><?php  echo $boxNumber; ?></td> -->
+                                                <td class="text-center"><?php  echo $minStockCount; ?></td>
+                                                <td class="text-center">                                                    
+                                                    <strong><?php echo $quantity; ?></strong>
+                                                </td>
+                                                <td class="text-center" >
+                                                    ₱&nbsp;<?php echo $unitCost; ?>
+                                                </td>
+                                                <td class="text-center" >
+                                                    <span class="label label-<?php if($quantity <= $minStockCount && $quantity > 0) echo "warning"; else if($quantity == 0) echo "danger"; else echo "success";?>"><?php if($quantity <= $minStockCount && $quantity > 0) echo "Low Stock"; else if($quantity == 0) echo "Out Of Stock"; else echo "Available";?></span>
+                                                </td>
+                                                <td class="text-center" >
+                                                    <a href="moreDetails.php?item_id=<?php echo $item_id; ?>" class="btn btn-primary btn-xs">View Record <span class="glyphicon glyphicon-list-alt"></span></a>
+                                                </td>
+                                                <td class="text-center" style="white-space:nowrap;">
+                                                    <button data-toggle="modal" data-target="#stockIn" data-toggle-tooltip="tooltip" title="IN" class="btn btn-success btn-xs" data-id="<?php echo $item_id; ?>"><span class="glyphicon glyphicon-plus"></span></button>
+                                                    <button data-toggle="modal" data-target="#stockOut" data-toggle-tooltip="tooltip" title="OUT" class="btn btn-danger btn-xs" data-id="<?php echo $item_id; ?>"><span class="glyphicon glyphicon-minus"></span></button> 
+                                                    <!-- <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#stockDelete" data-id="<?php echo $item_id; ?>"><span class="glyphicon glyphicon-trash"></span></button>     -->
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                                }
+                                            }
+                                            mysqli_close($conn);
+                                        ?>                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>                    
                         </div>                       
                     </div>                  
                 </div>
@@ -321,7 +477,7 @@
         $(document).ready(function() {
             var table = $('#recordsTable').DataTable();
          
-            $("#recordsTable tfoot th").each( function ( i ) {
+        $("#recordsTable tfoot th").each( function ( i ) {
                 var select = $('<select><option value=""></option></select>')
                     .appendTo( $(this).empty() )
                     .on( 'change', function () {
@@ -336,55 +492,31 @@
             } );           
         } );             
 
+        $(document).ready(function () {
+                $('#recordsTableUnits').dataTable({
+                'iDisplayLength': 25, 
+                'lengthMenu': [ [25, 50, 100, -1], [25, 50, 100, 'All'] ],
+                'order': [ 0, 'desc' ],
+                'bSort': true
+                 });
+            });
+
         $(document).ready(function() {
-            $('#outOfStocksFilter').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('out of stock');
-            });
-
-            $('#lowStocksFilter').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('low stock');
-            });
-
-            $('#noFilter').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('');
-            });
-
-            $('#outOfStocksFilterBtn').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('out of stock');
-            });
-
-            $('#lowStocksFilterBtn').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('low stock');
-            });
-
-            $('#noFilterBtn').click(function(event) {
-                /* Act on the event */
-                oTable = $('#recordsTable').dataTable();
-
-                /* Filter immediately */
-                oTable.fnFilter('');
-            });            
-
+            var table = $('#recordsTableUnits').DataTable();
+         
+        $("#recordsTableUnits tfoot th").each( function ( i ) {
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(this).empty() )
+                    .on( 'change', function () {
+                        table.column( i )
+                            .search( $(this).val() )
+                            .draw();
+                    } );
+         
+                table.column( i ).data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );           
         } );
 
         $(document).ready(function() {
@@ -457,25 +589,6 @@
                 });
              });
         });
-
-        // if (<?php echo $_SESSION['isFirstLogin']; ?>) {
-        //     $(document).ready(function() {
-        //         BootstrapDialog.show({
-        //             type: BootstrapDialog.TYPE_WARNING,
-        //             title: 'Warning',
-        //             message: '<strong>Important:</strong> Make sure that the server\'s date and time is correct to avoid errors.',
-        //             onshow: function(dialogRef){
-        //                     dialogRef.enableButtons(false);
-        //                     dialogRef.setClosable(false);
-        //                     setTimeout(function(){
-        //                         dialogRef.close();
-        //                     }, 3000);
-        //             }
-
-        //         });              
-        //     });      
-        //     <?php $_SESSION['isFirstLogin'] = "false"; ?>      
-        // };         
 
         $(document).ready(function() {
             $('#reference_id').change(function(event) {

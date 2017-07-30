@@ -233,7 +233,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="10">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->
@@ -243,7 +243,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->
@@ -312,7 +312,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="10">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->
@@ -322,7 +322,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->
@@ -391,7 +391,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="10">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->
@@ -401,7 +401,7 @@
                                             <tfoot>
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="">ID</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <!-- <th class="text-center" bgcolor="#f2ba7f" width="">Minimum Stock Count</th> -->

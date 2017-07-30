@@ -49,7 +49,7 @@
                                                 <tr>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">ID</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Box&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Order&nbsp;Point</th>
@@ -61,7 +61,7 @@
                                                 <tr>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">ID</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Box&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Order&nbsp;Point</th>
@@ -143,7 +143,7 @@
                                                 <tr>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">ID</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Box&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Order&nbsp;Point</th>
@@ -155,7 +155,7 @@
                                                 <tr>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">ID</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Description</th>
-                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#</th>
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="">Part&nbsp;#/Model</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Box&nbsp;#</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Quantity</th>
                                                     <th class="text-center" bgcolor="#f2ba7f" width="">Order&nbsp;Point</th>

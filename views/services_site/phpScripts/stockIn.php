@@ -60,11 +60,11 @@
         $details = mysqli_real_escape_string($conn, $details);
         $details = trim($details);
         $details = strip_tags($details);
-        $details = strtoupper($details);        
+        $details = strtoupper($details);  
 
         $sql = "INSERT INTO tbl_item_history VALUES(NULL,
                                                      ".$item_id.",
-                                                     3,
+                                                     ".$_SESSION['userType_id'].",
                                                      now(),
                                                      '".$date."',
                                                      '".$reference_id."',
@@ -76,7 +76,7 @@
                                                      'N/A',
                                                      '".$details."',
                                                      ".$_SESSION['user_id'].",
-                                                     'N/A');";
+                                                     'N/A');";                    
         $retval = mysqli_query($conn, $sql);
 
         if ($retval) {                                                            

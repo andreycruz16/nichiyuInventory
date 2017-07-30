@@ -40,10 +40,10 @@
         $oldQuantity = mysqli_real_escape_string($conn, $oldQuantity);
         $oldQuantity = trim($oldQuantity);
 
-        if($quantity > $oldQuantity) {
-            echo "<script>alert('ENTER A VALID QUANTITY. UPDATE NOT SAVED. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
-            exit();
-        }
+        // if($quantity > $oldQuantity) {
+        //     echo "<script>alert('ENTER A VALID QUANTITY. UPDATE NOT SAVED. TRY AGAIN.'); window.location.href = '../moreDetails.php?item_id=".$item_id."'</script>";
+        //     exit();
+        // }
         $quantity = -abs($quantity); //converts positive number to negative
 
         $transferType = $_POST['transferType'];

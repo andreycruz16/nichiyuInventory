@@ -9,7 +9,8 @@
               tbl_users.lastName,
               tbl_users.contactNumber,
               tbl_users.userType_id,
-              tbl_users.displayPicture
+              tbl_users.displayPicture,
+              tbl_users.user_id
             FROM
               tbl_users
             INNER JOIN
@@ -28,6 +29,7 @@
             $contactNumber = $row[4];
             $userType_id = $row[5];
             $displayPicture = $row[6];
+            $user_id = $row[7];
         }
     }     
  ?>
@@ -36,7 +38,7 @@
 <head>
 <?php include("includes/header.php") ?>
     <style>
-/*     #addNewUser .modal-header {
+     #addNewUser .modal-header {
           background-color: #5cb85c;
           color: #fff;
           font-weight: bold;
@@ -48,7 +50,7 @@
           color: #fff;
           font-weight: bold;
           text-align: center;
-     } */    
+     }     
     </style>     
 </head>
 <body>
@@ -60,7 +62,7 @@
         <div id="page-wrapper">
             <div class="header"> 
                 <h2 class="page-header">
-                    <span class="text-success"><?php echo $_SESSION['username']; ?></span>
+                    <span class="text-success">Username: <?php echo $username; ?></span>
                 </h2>
                 <ol class="breadcrumb">
                     <li><a href="userManagement.php">User Management</a></li>
@@ -78,22 +80,28 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                       <div class="col-md-8 col-sm-8">
+                                      <form action="phpScripts/updateAnotherUserDetails.php" method="POST" enctype="multipart/form-data">
                                           <div class="form-group">
                                               <label for="recipient-name" class="control-label">Username:</label>
-                                              <input type="text" class="form-control" value="<?php echo $username; ?>" name="username" id="username" autocomplete="off" readonly>
+                                              <input type="text" class="form-control" value="<?php echo $username; ?>" name="username" id="username" autocomplete="off">
                                           </div>
                                           <div class="form-group">
                                               <label for="message-text" class="control-label">First Name</label>
-                                              <input type="text" class="form-control" value="<?php echo $firstName; ?>"name="firstName" id="firstName" autocomplete="off" readonly>
+                                              <input type="text" class="form-control" value="<?php echo $firstName; ?>" name="firstName" id="firstName" autocomplete="off">
                                           </div>   
                                           <div class="form-group">
                                               <label for="recipient-name" class="control-label">Last Name</label>
-                                              <input type="text" class="form-control" value="<?php echo $lastName; ?>" name="lastName" id="lastName" autocomplete="off" readonly>
+                                              <input type="text" class="form-control" value="<?php echo $lastName; ?>" name="lastName" id="lastName" autocomplete="off">
                                           </div>
                                           <div class="form-group">
                                               <label for="message-text" class="control-label">Contact #</label>
-                                              <input type="text" class="form-control" value="<?php echo $contactNumber; ?>" name="contactNumber" id="contactNumber" readonly>
-                                          </div>                                        
+                                              <input type="text" class="form-control" value="<?php echo $contactNumber; ?>" name="contactNumber" id="contactNumber" autocomplete="off">
+                                          </div> 
+                                          <div class="form-group">
+                                              <input type="hidden" value="<?php echo $user_id; ?>" name="user_id">
+                                              <button type="submit" class="btn btn-block btn-success">Save</button>       
+                                          </div>  
+                                      </form>                                     
                                       </div>
                                       <div class="col-md-4 col-sm-4">
                                           <div class="form-group">
@@ -120,12 +128,24 @@
                                           <div class="form-group">
                                               <label for="userType"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> User Type</label>
                                               <select class="form-control" name="userType_id" id="userType_id">
-                                                  <!-- <option <?php if($userType_id == 1) echo "selected"; ?> value="1" disabled>Admnistrator</option> -->
-                                                  <option <?php if($userType_id == 2) echo "selected"; ?> value="2">Warehouse User</option>
-                                                  <option <?php if($userType_id == 6) echo "selected"; ?> value="6">Warehouse Viewer</option>
-                                                  <option <?php if($userType_id == 3) echo "selected"; ?> value="3">Service User</option>
-                                                  <option <?php if($userType_id == 5) echo "selected"; ?> value="5">Service Viewer</option>
-                                                  <option <?php if($userType_id == 4) echo "selected"; ?> value="4">Manager</option>
+                                                  <option value="" selected disabled>Select an option</option>
+                                                  <?php 
+                                                      require '../../database.php';
+                                                      $sql = "SELECT * FROM tbl_user_type WHERE userType_id != 1 AND userType_id != 5;";
+
+                                                      $result = mysqli_query($conn, $sql);
+                                                      if (mysqli_num_rows($result) > 0) {
+                                                          while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                                              $userType_id = $row[0];
+                                                              $userType1 = $row[1];
+                                                  ?>
+                                                      <option value="<?php echo $userType_id; ?>" <?php if($userType == $userType1) echo "selected"; ?>><?php echo $userType1; ?></option>
+
+                                                  <?php 
+                                                          }
+                                                      }
+                                                      mysqli_close($conn);
+                                                  ?>
                                               </select>
                                           </div>
                                           <input type="hidden" name="user_id" id="user_id" value="<?php echo $_GET['user_id']; ?>">
@@ -138,13 +158,13 @@
                                 </div>                                
                             </div>
                         </div>
-                        <div class="panel panel-default">
+<!--                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 Remove User
                             </div>
                             <div class="panel-body">
-                                <button class="btn btn-danger btn-md btn-block" data-toggle="modal" data-target="#removeUserModal">Remove</button>
-                                <div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                <button class="btn btn-danger btn-md btn-block" data-toggle="modal" data-target="#userDelete">Remove</button>
+                                <div class="modal fade" id="userDelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -155,13 +175,6 @@
                                                 <div class="modal-body text-center">
                                                     <h4 class="text-danger">Are you sure you want to permanently remove <br><strong><?php echo $username; ?>?</strong></h4>
                                                     <strong>Warning</strong>: This action is <strong>irreversable</strong><br><br>
-                                                    <div class="col-md-12">
-                                                        <div class="input-group">
-                                                            <span for="password" class="input-group-addon" id="basic-addon1">Password:</span>
-                                                            <input type="password" name="password" id="password" class="form-control" value="" aria-describedby="basic-addon1" autofocus required autocomplete="off">
-                                                        </div>                                                                                                                                               
-                                                     </div>
-                                                     <br><br>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -172,7 +185,7 @@
                                     </div>
                                 </div>                                                                
                             </div>
-                        </div>
+                        </div> -->
                     </div>                                   
                 </div>
 				    <?php include("includes/footer.php") ?>

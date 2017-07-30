@@ -152,7 +152,7 @@
           </div>
           <form role="form" class="form-horizontal" action="login.php" method="post">
               <div class="modal-body">
-            <h4 class="modal-title" id="exampleModalLabel">Login Form</h4><br>
+            <!-- <h4 class="modal-title" id="exampleModalLabel">Login Form</h4><br> -->
                 <div class="row">
                    <div class="col-sm-2">                    
                    </div>            

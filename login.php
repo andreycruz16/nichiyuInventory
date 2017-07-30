@@ -30,12 +30,19 @@
                     $_SESSION['displayPicture'] = $row[7];
                     $_SESSION['isFirstLogin'] = true;
                 }
+                $_SESSION['userType_administrator'] = 1;
+                $_SESSION['userType_warehouse'] = 2;
+                $_SESSION['userType_service'] = 3;
+                $_SESSION['userType_accounting'] = 4;
+                $_SESSION['userType_guest'] = 5;
+
                 $sql = "INSERT INTO tbl_activity_logs VALUES(NULL,
                                                                '".$_SESSION['user_id']."',
                                                                now(),
                                                                1,
                                                                'User has logged in'
                                                                );";
+                header("location: index.php");
             } else {
                 echo "<script>alert('Invalid login details'); window.location.href = 'index.php'</script>s";
             }                           
@@ -43,6 +50,4 @@
             mysqli_close($conn);
         }
     }
-    header("location: index.php");
-    exit();
 ?>

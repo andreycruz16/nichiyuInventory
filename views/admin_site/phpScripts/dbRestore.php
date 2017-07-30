@@ -39,12 +39,14 @@
 	if (substr(trim($line), -1, 1) == ';')
 	{
 	    // Perform the query
-	    mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+	    mysql_query($templine);
+	    // mysql_query($templine) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
 	    // Reset temp variable to empty
 	    $templine = '';
 	}
 	}
-	echo "<script>alert('DATABASE SUCCESSFULLY RESTORED'); window.location.href = '../maintenance.php'</script>";
+	echo "<script>window.location.href = '../index.php'</script>";
+	// echo "<script>alert('DATABASE SUCCESSFULLY RESTORED'); window.location.href = '../index.php'</script>";
 
 	$sql = "INSERT INTO tbl_activity_logs VALUES(NULL,
 	                            ".$_SESSION['user_id'].",

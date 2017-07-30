@@ -1,11 +1,12 @@
 <?php 
+        session_start();
 	if(!empty($_POST['partNumber'])) {
 		require '../../../database.php';
 
                 $partNumber = mysqli_real_escape_string($conn, $_POST['partNumber']);
                 $partNumber = trim($partNumber);
 
-                $sql = "SELECT tbl_item.partNumber FROM tbl_item WHERE tbl_item.partNumber = '".$partNumber."' AND dept_id = 2 AND status = 0;";
+                $sql = "SELECT tbl_item.partNumber FROM tbl_item WHERE tbl_item.partNumber = '".$partNumber."' AND userType_id = ".$_SESSION['userType_id']." AND status = 0;";
                 if(!$result = mysqli_query($conn, $sql)) {
                 	exit(mysqli_error($conn));
                 }

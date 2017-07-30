@@ -43,6 +43,7 @@
                                                 <tr>
                                                     <th class="text-center" bgcolor="#e5e5e5" width="155">TIMESTAMP</th> <!-- 2 -->
                                                     <th class="text-center" bgcolor="#f2ba7f" width="80">User</th> <!-- 1 -->
+                                                    <th class="text-center" bgcolor="#f2ba7f" width="80">User&nbsp;Type</th> <!-- 1 -->
                                                     <th class="text-center" bgcolor="#f2ba7f" width="100">Activity&nbsp;Type</th> <!-- 3 -->
                                                     <th class="text-center" bgcolor="#f2ba7f">Details</th> <!-- 4 -->
                                                 </tr>
@@ -51,6 +52,7 @@
                                                 <tr>
                                                     <th bgcolor="#e5e5e5" width="155">TIMESTAMP</th> <!-- 2 -->
                                                     <th bgcolor="#f2ba7f" width="80">User</th> <!-- 1 -->
+                                                    <th bgcolor="#f2ba7f" width="80">User&nbsp;Type</th> <!-- 1 -->
                                                     <th bgcolor="#f2ba7f" width="100">Activity&nbsp;Type</th> <!-- 3 -->
                                                     <td bgcolor="#f2ba7f"></td> <!-- 4 -->
                                                 </tr>
@@ -61,12 +63,15 @@
                                                 $sql = "SELECT tbl_activity_logs.timestamp, 
                                                                tbl_users.username, 
                                                                tbl_activity_type.activityType, 
-                                                               tbl_activity_logs.activityDetails 
+                                                               tbl_activity_logs.activityDetails,
+                                                               tbl_user_type.userType
                                                         FROM tbl_activity_logs 
                                                         INNER JOIN tbl_users
                                                         ON tbl_activity_logs.user_id = tbl_users.user_id
                                                         INNER JOIN tbl_activity_type
                                                         ON tbl_activity_logs.acitivityType_id = tbl_activity_type.activityType_id
+                                                        INNER JOIN tbl_user_type
+                                                        ON tbl_users.userType_id = tbl_user_type.userType_id
                                                         ORDER BY activityLog_id 
                                                         DESC;";
                                                 // echo $sql;
@@ -77,10 +82,12 @@
                                                         $username = $row[1];
                                                         $activityType = $row[2];
                                                         $activityDetails = $row[3];
+                                                        $userType = $row[4];
                                             ?>
                                                 <tr>
                                                     <td class="text-center" title="<?php  echo date('h:i:s A', strtotime($timestamp)); ?>"><?php  echo date('m/d/Y', strtotime($timestamp)); ?></td>
                                                     <td class="text-center"><?php echo $username; ?></td>
+                                                    <td class="text-center"><?php echo $userType; ?></td>
                                                     <td class="text-center"><?php echo $activityType; ?></td>
                                                     <td><?php echo $activityDetails; ?></td>
                                                 </tr>
@@ -132,18 +139,6 @@
                     } );
                 } );           
             } );             
-
-            $('.form_date').datetimepicker({
-                // language:  'fr',
-                format:'yyyy-mm-dd',
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            }); 
     </script>
 </body>
 </html>

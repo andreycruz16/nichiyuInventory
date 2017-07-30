@@ -39,55 +39,35 @@
                 </ol>
             </div>
             <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <button class="btn btn-success btn-md" data-toggle-tooltip="tooltip" data-placement="top" title="" data-toggle="modal" data-target="#addNewUser">
-                          <span class="glyphicon glyphicon-user"></span>&nbsp; New user
-                        </button>         
-                    </div>           
-                </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="panel panel-primary text-center no-boder blue">
                             <div class="panel-right">
                                 <?php 
                                     require '../../database.php';
-                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 2 || userType_id = 6;";
+                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 2;";
                                     $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
                                 ?>
                                 <h3><strong><?php echo $row[0]; mysqli_close($conn); ?></strong></h3>
-                               <strong> Warehouse Users</strong>
+                               <strong> Total # of Warehouse Users</strong>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="panel panel-primary text-center no-boder blue">
                             <div class="panel-right">
                                 <?php 
                                     require '../../database.php';
-                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 3 || userType_id = 5;";
+                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 3;";
                                     $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
                                 ?>
                                 <h3><strong><?php echo $row[0]; mysqli_close($conn); ?></strong></h3>
-                               <strong> Service Users</strong>
+                               <strong> Total # of Service Users</strong>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 col-xs-3">
-                        <div class="panel panel-primary text-center no-boder blue">
-                            <div class="panel-right">
-                                <?php 
-                                    require '../../database.php';
-                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 7 || userType_id = 8;";
-                                    $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
-                                ?>
-                                <h3><strong><?php echo $row[0]; mysqli_close($conn); ?></strong></h3>
-                               <strong> Accounting Users</strong>
-                            </div>
-                        </div>
-                    </div>                    
-                    <div class="col-md-3 col-sm-3 col-xs-3">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="panel panel-primary text-center no-boder blue">
                             <div class="panel-right">
                                 <?php 
@@ -96,16 +76,31 @@
                                     $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
                                 ?>
                                 <h3><strong><?php echo $row[0]; mysqli_close($conn); ?></strong></h3>
-                               <strong> Manager</strong>
+                               <strong> Total # of Accounting Users</strong>
                             </div>
                         </div>
-                    </div>                                                       
-                </div>
-                <div class="row">
+                    </div>                    
+<!--                     <div class="col-md-3 col-sm-3 col-xs-3">
+                        <div class="panel panel-primary text-center no-boder blue">
+                            <div class="panel-right">
+                                <?php 
+                                    require '../../database.php';
+                                    $sql = "SELECT COUNT(*) FROM tbl_users WHERE userType_id = 5;";
+                                    $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQL_NUM); 
+                                ?>
+                                <h3><strong><?php echo $row[0]; mysqli_close($conn); ?></strong></h3>
+                               <strong> Total # of Guest</strong>
+                            </div>
+                        </div>
+                    </div> --> 
+                    <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                All Users (A-Z)
+                                <button class="btn btn-success btn-md" data-toggle-tooltip="tooltip" data-placement="top" title="" data-toggle="modal" data-target="#addNewUser">
+                                  <span class="glyphicon glyphicon-user"></span>&nbsp; New user
+                                </button> 
+                                &nbsp;All Users (A-Z)
                             </div>
                             <div class="panel-body">
                                 <div class="table-responsive">
@@ -116,7 +111,7 @@
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">First Name</th>
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">Last Name</th>
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">User Type</th>
-                                                <th class="text-center" bgcolor="#f2ba7f" width="">Action</th>
+                                                <th class="text-center" bgcolor="#f2ba7f" width="10">Action</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -125,7 +120,7 @@
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">First Name</th>
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">Last Name</th>
                                                 <th class="text-center" bgcolor="#f2ba7f" width="">User Type</th>
-                                                <td class="text-center" bgcolor="#f2ba7f" width=""></td>
+                                                <td class="text-center" bgcolor="#f2ba7f" width="10"></td>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -142,7 +137,7 @@
                                                     INNER JOIN
                                                       tbl_user_type ON tbl_users.userType_id = tbl_user_type.userType_id
                                                     WHERE
-                                                      tbl_user_type.userType != 'ADMINISTRATOR'
+                                                      tbl_user_type.userType != 'ADMINISTRATOR' AND tbl_user_type.userType != 'GUEST'
                                                     ORDER BY
                                                       tbl_users.username;";
                                             // echo $sql;
@@ -156,11 +151,11 @@
                                                     $userType = $row[4];
                                         ?>
                                             <tr>
-                                                <td><?php echo $username; ?></td>
-                                                <td><?php echo $firstName; ?></td>
-                                                <td><?php echo $lastName; ?></td>
+                                                <td class="text-center"><?php echo $username; ?></td>
+                                                <td class="text-center"><?php echo $firstName; ?></td>
+                                                <td class="text-center"><?php echo $lastName; ?></td>
                                                 <td class="text-center"><?php echo $userType; ?></td>
-                                                <td class="text-center">
+                                                <td class="text-center" style="white-space:nowrap;">
                                                     <a href="userDetails.php?user_id=<?php echo "$user_id"; ?>" title="Manage" class="btn btn-info btn-xs">Manage <span class="glyphicon glyphicon-cog"></span></a>
                                                     <button type="button" class="btn btn-danger btn-xs" title="Delete" data-toggle="modal" data-target="#userDelete" data-id="<?php echo $user_id; ?>"><span class="glyphicon glyphicon-trash"></span></button>
                                                 </td>
@@ -205,16 +200,35 @@
                           <input type="text" class="form-control" name="password" id="password" placeholder="●●●●●●●●●●" autocomplete="off" required readonly>
                         </div>
                          <div class="form-group">
+                          <label for="recipient-name" class="control-label">First Name:</label>
+                          <input type="text" class="form-control" name="firstName" id="firstName" autocomplete="off" required autofocus>
+                        </div>
+                        <div class="form-group">
+                          <label for="recipient-name" class="control-label">Last Name:</label>
+                          <input type="text" class="form-control" name="lastName" id="lastName" autocomplete="off" required autofocus>
+                        </div>
+                         <div class="form-group">
                               <label for="userType"><label class="text-danger"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></label> User Type</label>
-                              <select class="form-control" name="userType_id" id="userType_id">
-                                  <!-- <option value="1" disabled>Admnistrator</option> -->
-                                  <option value="2">Warehouse User</option>
-                                  <option value="6">Warehouse Viewer</option>
-                                  <option value="3">Service User</option>
-                                  <option value="5">Service Viewer</option>
-                                  <option value="7">Accounting User</option>
-                                  <option value="8">Accounting Viewer</option>
-                                  <option value="4">Manager</option>
+                              <select class="form-control" name="userType_id" id="userType_id" required>
+                                  <option value="" selected disabled>User Type</option>
+                                    <?php 
+                                        require '../../database.php';
+                                        $sql = "SELECT * FROM tbl_user_type WHERE userType_id != 1 AND userType_id != 5;";
+
+                                        $result = mysqli_query($conn, $sql);
+                                        if (mysqli_num_rows($result) > 0) {
+                                            while($row = mysqli_fetch_array($result, MYSQL_NUM)) { 
+                                                $userType_id = $row[0];
+                                                $userType = $row[1];
+                                    ?>
+                                        <option value="<?php echo $userType_id; ?>"><?php echo $userType; ?></option>
+
+
+                                    <?php 
+                                            }
+                                        }
+                                        mysqli_close($conn);
+                                    ?>
                               </select>
                          </div>
                    </div>
